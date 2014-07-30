@@ -1,0 +1,143 @@
+<!--
+	作者：xuyuanxiang@tjpower.com.cn
+	时间：2014-07-30
+	描述：主页（底部按钮“主页”）
+	Controller: home/home_controller.js
+	路由：index.html#/home
+-->
+
+<header>
+    <img src="img/logo.png" alt="ohFresh探鲜家">
+    <button type="button" href="#/login" class="btn btn-default right">
+        {{'CATEGORY' | translate}}
+    </button>
+</header>
+
+<footer>
+    <a href="#/home" class="active">
+        <i class="glyphicon glyphicon-home"></i>
+        <span>{{'HOME' | translate}}</span>
+    </a>
+    <a ng-show="!customer" href="#/login">
+        <i class="glyphicon glyphicon-user"></i>
+        <span>{{'LOGIN' | translate}}</span>
+    </a>
+    <a ng-show="customer" href="#/customer">
+        <i class="glyphicon glyphicon-user"></i>
+        <span>{{'MY' | translate}}</span>
+    </a>
+    <a href="#/order/create">
+        <i class="glyphicon glyphicon-shopping-cart"></i>
+        <span class="badge" ng-show="carts.length>0">{{carts.length}}</span>
+        <span>{{'SHOPPING_CART'| translate}}</span>
+    </a>
+    <a ng-click="backBarClickHandler">
+        <i class="glyphicon glyphicon-phone-alt"></i>
+        <span>{{'SERVICE' | translate}}</span>
+    </a>
+</footer>
+
+<div id="homePage" class="container-fluid">
+    <form role="form" class="input-group">
+        <input type="search" class="form-control" placeholder="{{'PLACEHOLDER_SEARCH' | translate}}">
+
+        <div class="input-group-btn">
+            <button class="btn btn-success" type="submit">
+                <i class="fa fa-search"></i>
+            </button>
+        </div>
+    </form>
+
+    <div class="page-header" ng-repeat-start="channel in channels">
+        <h4><i class="glyphicon"></i>{{channel.name}}</h4>
+    </div>
+
+    <div class="row" ng-repeat-end ng-repeat="item in channel.items">
+        <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3" ng-repeat="product in item.products">
+            <div class="thumbnail">
+                <img ng-src="{{product.code}}">
+
+                <div class="caption">
+                    <p><strong>{{product.name}}</strong><br/>{{product.memo?product.memo:'精选水果'}}</p>
+
+                    <p class="text-right">
+                        <a ng-click="showBuy=true" class="btn btn-warning" role="button">
+                            <i class="glyphicon glyphicon-shopping-cart"></i>
+                            {{'BUY' | translate}}
+                        </a></p>
+                </div>
+            </div>
+            <div class="panel panel-warning panel-buy animated"
+                 ng-class="showBuy?'fadeInUp':'hidden visible'">
+                <div class="panel-body">
+                    <ul class="list-group row">
+                        <li class="list-group-item">
+                            <a ng-click="showBuy=false;" class="pull-right btn btn-link">
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </a>
+                            <h4 class="list-group-item-heading">{{product.name}}</h4>
+
+                            <p ng-show="currentProductIns" class="list-group-item-text">
+                                ￥{{currentProductIns.price * currentProductIns.num}}
+                            </p>
+
+                        </li>
+                        <li class="list-group-item">
+                            <a class="label label-lg"
+                               ng-repeat-start="child in product.children"
+                               ng-click="selectProductIns(child)"
+                               ng-class="currentProductIns.id == child.id?'label-danger':'label-default'">
+                                <i ng-class="currentProductIns.id == child.id?'glyphicon-check':'glyphicon-unchecked'"
+                                   class="glyphicon"></i> {{child.name}}
+                            </a>
+                            <span ng-repeat-end>
+                                &nbsp;
+                            </span>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <a ng-click="currentProductIns.num = (currentProductIns.num>1?currentProductIns.num-1:currentProductIns.num)"
+                                       class="btn btn-default">
+                                        <i class="glyphicon glyphicon-minus"></i>
+                                    </a>
+                                </div>
+                                <input type="number" ng-model="currentProductIns.num" min="1" class="form-control">
+
+                                <div class="input-group-btn">
+                                    <a ng-click="currentProductIns.num = currentProductIns.num+1"
+                                       class="btn btn-default">
+                                        <i class="glyphicon glyphicon-plus"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="btn-group btn-group-justified">
+                                <div class="btn-group">
+                                    <button ng-click="addToCart(currentProductIns)" type="button"
+                                            ng-disabled="!currentProductIns" class="btn btn-warning">
+                                        {{'ADD_TO_CART' | translate}}
+                                    </button>
+                                </div>
+
+                                <div class="btn-group">
+                                    <button ng-click="purchaseNow(currentProductIns)" type="button"
+                                            ng-disabled="!currentProductIns" class="btn btn-danger">
+                                        {{'BUY_RIGHT_NOW' | translate}}
+                                    </button>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!-- ./panel-body -->
+            </div>
+            <!-- ./panel -->
+        </div>
+        <!-- ./col-xs-6 col-sm-6 col-md-3 col-lg-3 -->
+    </div>
+    <!-- ./row -->
+</div>
+<!-- ./container-fluid -->
+

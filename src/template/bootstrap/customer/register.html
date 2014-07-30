@@ -1,0 +1,202 @@
+<!--
+	作者：xuyuanxiang@tjpower.com.cn
+	时间：2014-07-30
+	描述：注册页面
+	Controller: customer/register_controller.js
+	路由：index.html#/register
+-->
+
+<form name="registerForm" role="form" ng-submit="doRegister()">
+    <header>
+        <a href="#/login" class="btn btn-default left">
+            {{'BACK' | translate}}
+        </a>
+        <img src="img/logo.png" alt="ohFresh探鲜家">
+        <button ng-show="!isLoading" type="submit" class="btn btn-default right">
+            {{'DO_REGISTER' | translate}}
+        </button>
+        <button ng-show="isLoading" type="button" disabled class="btn btn-default right disabled">
+            {{'REGISTERING' | translate}}
+        </button>
+    </header>
+
+    <div class="container-fluid">
+        <div class="panel panel-success row">
+            <div class="panel-title">
+                <div class="panel-heading">{{'USER_REGISTER' | translate}}</div>
+            </div>
+
+            <div class="panel-body">
+                <div class="form-group" ng-init="nameHasInput=false"
+                     ng-class="nameHasInput?(registerForm.name.$valid?'has-feedback has-success':'has-feedback has-error'):''">
+                    <label>{{'TRUE_NAME' | translate}}</label>
+                    <label ng-show="nameHasInput && registerForm.name.$error.required" class="control-label">
+                        <small>{{'REQUIRED' | translate}}</small>
+                    </label>
+                    <input ng-model="name" autofocus type="text" name="name" class="form-control" ng-required="true"
+                           ng-blur="nameHasInput=true" tabindex="1" placeholder="{{'REQUIRED_PLACEHOLDER' | translate}}"
+                           ng-pattern="/(?:[\u4E00-\u9FFF]{1,8}·\u4E00-\u9FFF]{1,8})|(?:[\u4E00-\u9FFF]{2,5})|(^[a-zA-Z]{1,30}$)/"/>
+
+                    <p ng-show="nameHasInput && !registerForm.name.$valid" class="help-block">
+                        {{'TRUE_NAME_INVALID' | translate}}</p>
+                    <span class="form-control-feedback"
+                          ng-class="nameHasInput?(registerForm.name.$valid?'glyphicon glyphicon-ok':'glyphicon glyphicon-remove'):''"></span>
+                </div>
+                <!-- ./true_name input -->
+
+                <div class="form-group" ng-init="mobileHasInput=false"
+                     ng-class="mobileHasInput?(registerForm.mobilephone.$valid?'has-feedback has-success':'has-feedback has-error'):''">
+                    <label>{{'MOBILE' | translate}}</label>
+                    <label ng-show="mobileHasInput && registerForm.mobilephone.$error.required" class="control-label">
+                        <small>{{'REQUIRED' | translate}}</small>
+                    </label>
+                    <input ng-model="mobilephone" type="tel" name="mobilephone" class="form-control" ng-required="true"
+                           ng-blur="mobileHasInput=true" tabindex="2"
+                           placeholder="{{'REQUIRED_PLACEHOLDER' | translate}}"
+                           ng-pattern="/^1[0-9]{10,11}$/"/>
+
+                    <p ng-show="mobileHasInput && !registerForm.mobilephone.$valid" class="help-block">
+                        {{'MOBILE_INVALID' | translate}}
+                    </p>
+                    <span class="form-control-feedback"
+                          ng-class="mobileHasInput?(registerForm.mobilephone.$valid?'glyphicon glyphicon-ok':'glyphicon glyphicon-remove'):''"></span>
+                </div>
+                <!-- ./mobile input -->
+
+                <div class="form-group" ng-init="passwordHasInput=false"
+                     ng-class="passwordHasInput?(registerForm.password.$valid?'has-feedback has-success':'has-feedback has-error'):''">
+                    <label>{{'PASSWORD' | translate}}</label>
+                    <label ng-show="passwordHasInput && registerForm.password.$error.required" class="control-label">
+                        <small>{{'REQUIRED' | translate}}</small>
+                    </label>
+                    <input ng-model="password" type="password" name="password" class="form-control" ng-required="true"
+                           ng-blur="passwordHasInput=true" tabindex="3"
+                           placeholder="{{'REQUIRED_PLACEHOLDER' | translate}}"
+                           ng-pattern="/^[a-zA-Z]{1}([a-zA-Z0-9]|[_]){5,19}$/"/>
+
+                    <p ng-show="passwordHasInput && !registerForm.password.$valid" class="help-block">
+                        {{'PASSWORD_INVALID' | translate}}
+                    </p>
+                    <span class="form-control-feedback"
+                          ng-class="passwordHasInput?(registerForm.password.$valid?'glyphicon glyphicon-ok':'glyphicon glyphicon-remove'):''"></span>
+                </div>
+                <!-- ./password input -->
+
+                <div class="form-group" ng-init="password2HasInput=false"
+                     ng-class="password2HasInput?(password2 && password2==password?'has-feedback has-success':'has-feedback has-error'):''">
+                    <label>{{'PASSWORD_REPEAT' | translate}}</label>
+                    <label ng-show="password2HasInput && registerForm.password2.$error.required" class="control-label">
+                        <small>{{'REQUIRED' | translate}}</small>
+                    </label>
+                    <input ng-model="password2" type="password" name="password2" class="form-control" ng-required="true"
+                           ng-blur="password2HasInput=true" tabindex="4"
+                           placeholder="{{'REQUIRED_PLACEHOLDER' | translate}}"
+                           ng-pattern="/^[a-zA-Z]{1}([a-zA-Z0-9]|[_]){5,19}$/"/>
+
+                    <p ng-show="password2HasInput && password2!=password" class="help-block">
+                        {{'PASSWORD_REPEAT_INVALID' | translate}}
+                    </p>
+                    <span class="form-control-feedback"
+                          ng-class="password2HasInput?(password2&&password2==password?'glyphicon glyphicon-ok':'glyphicon glyphicon-remove'):''"></span>
+                </div>
+                <!-- ./password_repeat input -->
+
+                <div class="form-group" ng-init="emailHasInput=false"
+                     ng-class="emailHasInput?(!registerForm.email.$valid?'has-feedback has-error':(email?'has-feedback has-success':'')):''">
+                    <label class="text-muted">{{'EMAIL' | translate}}</label>
+                    <input ng-model="email" type="email" name="email" class="form-control" ng-required="false"
+                           ng-blur="emailHasInput=true" tabindex="5"
+                           ng-pattern="/^$|^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/"/>
+
+                    <p ng-show="emailHasInput && !registerForm.email.$valid" class="help-block">
+                        {{'EMAIL_INVALID' | translate}}
+                    </p>
+                    <span class="form-control-feedback"
+                          ng-class="emailHasInput?(!registerForm.email.$valid?'glyphicon glyphicon-remove':(email?'glyphicon glyphicon-ok':'')):''"></span>
+                </div>
+                <!-- ./email input -->
+
+                <div class="form-group" ng-init="wechatcodeHasInput=false"
+                     ng-class="wechatcodeHasInput?(!registerForm.wechatcode.$valid?'has-feedback has-error':(wechatcode?'has-feedback has-success':'')):''">
+                    <label class="text-muted">{{'WECHAT' | translate}}</label>
+                    <input ng-model="wechatcode" type="text" name="wechatcode" class="form-control" ng-required="false"
+                           ng-blur="wechatcodeHasInput=true" tabindex="6"
+                           ng-pattern="/^$|^[a-zA-Z]{1}([a-zA-Z0-9]|[._-]){5,19}$/"/>
+
+                    <p ng-show="wechatcodeHasInput && !registerForm.wechatcode.$valid" class="help-block">
+                        {{'WECHAT_INVALID' | translate}}
+                    </p>
+                    <span class="form-control-feedback"
+                          ng-class="wechatcodeHasInput?(!registerForm.wechatcode.$valid?'glyphicon glyphicon-remove':(wechatcode?'glyphicon glyphicon-ok':'')):''"></span>
+                </div>
+                <!-- ./wechatcode input -->
+
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div ng-show="countries.length>0" class="form-group">
+                            <label>{{'COUNTRY' | translate}}</label>
+                            <select name="country" tabindex="7"
+                                    class="form-control"
+                                    ng-model="country"
+                                    ng-change="countryChange(country)"
+                                    ng-options="item.name for item in countries"></select>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div ng-show="provinces.length>0" class="form-group">
+                            <label>{{'PROVINCE' | translate}}</label>
+                            <select name="country" tabindex="8"
+                                    class="form-control"
+                                    ng-model="province"
+                                    ng-change="provinceChange(province)"
+                                    ng-options="item.name for item in provinces"></select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div ng-show="cities.length>0" class="form-group">
+                            <label>{{'CITY' | translate}}</label>
+                            <select name="city" tabindex="9"
+                                    class="form-control"
+                                    ng-model="city"
+                                    ng-change="cityChange(city)"
+                                    ng-options="item.name for item in cities"></select>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div ng-show="counties.length>0" class="form-group">
+                            <label>{{'COUNTY' | translate}}</label>
+                            <select name="county" tabindex="10"
+                                    class="form-control"
+                                    ng-model="county"
+                                    ng-change="countyChange(county)"
+                                    ng-options="item.name for item in counties"></select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>{{'ADDRESS'|translate}}</label>
+                    <textarea tabindex="11" name="homeaddress" ng-model="homeaddress" class="form-control"></textarea>
+                </div>
+
+                <button ng-show="!isLoading" tabindex="12" class="btn btn-success btn-block" type="submit">
+                    {{'DO_REGISTER' | translate}}
+                </button>
+                <button disabled ng-show="isLoading" class="btn btn-success btn-block disabled" type="button">
+                    {{'REGISTERING' | translate}}
+                </button>
+                <a href="#/login" tabindex="13" class="btn btn-danger btn-block">
+                    {{'BACK' | translate}}
+                </a>
+            </div>
+            <!-- ./panel-body -->
+        </div>
+        <!-- ./panel -->
+    </div>
+    <!-- ./container-fluid -->
+</form>
+
+

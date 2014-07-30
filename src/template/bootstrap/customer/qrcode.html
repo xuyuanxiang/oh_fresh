@@ -1,0 +1,21 @@
+<!--
+	作者：xuyuanxiang@tjpower.com.cn
+	时间：2014-07-30
+	描述：用户二维码页面
+	Controller: customer/edit_controller.js
+	路由：index.html#/customer/qrcode
+-->
+<header>
+    <a role="button" href="#/customer" type="button" class="btn btn-default left">
+        {{'BACK' | translate}}
+    </a>
+    <img src="img/logo.png" alt="ohFresh探鲜家">
+</header>
+
+<div class="panel">
+    <div class="panel-body">
+
+        <img class="img-responsive" ng-src="{{customer.qrcodepath}}">
+
+    </div>
+</div>

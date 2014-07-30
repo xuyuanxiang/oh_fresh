@@ -1,0 +1,77 @@
+<!--
+	作者：xuyuanxiang@tjpower.com.cn
+	时间：2014-07-30
+	描述：配送地址新增/编辑
+	Controller: address/edit_controller.js
+	路由：index.html#/address/edit
+-->
+<form name="addressEditForm" ng-submit="addressEditFormSubmit()">
+    <header>
+        <a href="#/address" class="btn btn-default left">
+            返回
+        </a>
+        <img src="img/logo.png" alt="ohFresh探鲜家">
+        <button type="submit" class="btn btn-default right">
+            保存
+        </button>
+    </header>
+
+
+    <div class="container-fluid">
+        <div class="form-group">
+            <label>收货人：</label>
+            <input type="text" class="form-control" ng-required="true" ng-model="currentAddress.name"/>
+        </div>
+        <div class="form-group">
+            <label>手机号：</label>
+            <input type="tel" class="form-control" ng-required="true" ng-model="currentAddress.mobilephone"/>
+        </div>
+
+
+        <div class="row">
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <div ng-show="countries.length>0" class="form-group">
+                    <label>{{'COUNTRY' | translate}}</label>
+                    <select name="country" tabindex="1"
+                            class="form-control"
+                            ng-model="currentAddress.country"
+                            ng-change="countryChange(currentAddress.country)"
+                            ng-options="item.name for item in countries"></select>
+                </div>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <div ng-show="provinces.length>0" class="form-group">
+                    <label>{{'PROVINCE' | translate}}</label>
+                    <select name="country" tabindex="2"
+                            class="form-control"
+                            ng-model="currentAddress.province"
+                            ng-change="provinceChange(currentAddress.province)"
+                            ng-options="item.name for item in provinces"></select>
+                </div>
+            </div>
+        </div>
+        <div ng-show="cities.length>0" class="form-group">
+            <label>{{'CITY' | translate}}</label>
+            <select name="city" tabindex="3"
+                    class="form-control"
+                    ng-required="true"
+                    ng-model="currentAddress.city"
+                    ng-change="cityChange(currentAddress.city)"
+                    ng-options="item.name for item in cities"></select>
+        </div>
+        <div ng-show="counties.length>0" class="form-group">
+            <label>{{'COUNTY' | translate}}</label>
+            <select name="county" tabindex="4"
+                    class="form-control"
+                    ng-model="currentAddress.county"
+                    ng-change="countyChange(currentAddress.county)"
+                    ng-options="item.name for item in counties"></select>
+        </div>
+        <div class="form-group">
+            <label>{{'ADDRESS'|translate}}</label>
+            <textarea tabindex="5"
+                      ng-required="true"
+                      ng-model="currentAddress.assemblename" class="form-control"></textarea>
+        </div>
+    </div>
+</form>

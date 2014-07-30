@@ -1,0 +1,59 @@
+<!--
+	作者：xuyuanxiang@tjpower.com.cn
+	时间：2014-07-30
+	描述：配送地址管理（配送地址列表）
+	Controller: address/list_controller.js
+	路由：index.html#/address
+-->
+<header>
+    <button ng-show="from" ng-click="backTo()" class="btn btn-default left">
+        返回
+    </button>
+    <img src="img/logo.png" alt="ohFresh探鲜家">
+    <button ng-click="redToEdit()" class="btn btn-default right">
+        新增
+    </button>
+</header>
+
+
+<div class="container-fluid">
+    <ul class="list-group row">
+        <li class="list-group-item swipe"
+            ng-repeat="address in addresses"
+            ng-dblclick="defaultConfig(address);swipeActionClass='fadeOutRight hidden invisible'"
+            ng-init="swipeActionClass='hidden invisible'"
+            ng-swipe-left="swipeActionClass='fadeInRight'"
+            ng-swipe-right="swipeActionClass='fadeOutRight hidden invisible'">
+            <div class="swipe-content">
+                <span class="pull-right">
+                    <small>
+                        <i class="glyphicon glyphicon-phone"></i>
+                        {{address.mobilephone}}
+                    </small>
+                </span>
+                <h4 class="list-group-item-heading">
+                    <i class="glyphicon glyphicon-user"></i>
+                    {{address.name}}
+                </h4>
+                <span class="pull-right glyphicon"
+                      ng-class="defaultAddress.id == address.id?'glyphicon-check':'glyphicon-unchecked'">
+                </span>
+
+                <p class="list-group-item-text">
+                    <small>
+                        <i class="glyphicon glyphicon-map-marker"></i>
+                        {{address.assemblename}}
+                    </small>
+                </p>
+            </div>
+            <div class="swipe-action" ng-class="swipeActionClass">
+                <div class="swipe-action-inner animated" ng-class="swipeActionClass">
+                    <a ng-click="defaultConfig(address);swipeActionClass='fadeOutRight hidden invisible'">设为默认</a>
+                    <a ng-click="redToEdit(address)">编辑</a>
+                    <a ng-show="defaultAddress.id != address.id"
+                       ng-click="remove(address);swipeActionClass='fadeOutRight hidden invisible'">删除</a>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,37 @@
+.swipe {
+  width: 100%;
+  .swipe-content {
+    position: relative;
+    background: #fff;
+    -webkit-backface-visibility: hidden;
+    -moz-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+  .swipe-action {
+    background-color: #66cc66;
+    z-index: 999;
+    .swipe-action-inner {
+      position: absolute;
+      right: 0;
+      top: 0;
+      height: 100%;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      a {
+        padding: 0 30px;
+        color: #fff;
+        background: #66cc66;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+      }
+    }
+  }
+}

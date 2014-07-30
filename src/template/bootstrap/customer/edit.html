@@ -1,0 +1,37 @@
+<!--
+	作者：xuyuanxiang@tjpower.com.cn
+	时间：2014-07-30
+	描述：用户信息编辑
+	Controller: customer/edit_controller.js
+	路由：index.html#/customer/edit
+-->
+<form name="infoForm" role="form">
+
+    <header>
+        <a role="button" href="#/customer" type="button" class="btn btn-default left">
+            {{'BACK' | translate}}
+        </a>
+        <img src="img/logo.png" alt="ohFresh探鲜家">
+        <button type="submit" class="btn btn-default right">
+            {{'SAVE' | translate}}
+        </button>
+    </header>
+
+    <div class="panel">
+        <div class="panel-body">
+
+            <div class="form-group">
+                <label>{{'TRUE_NAME' | translate}}</label>
+                <input ng-model="customer.name" type="text" class="form-control"
+                       ng-required="true"/>
+            </div>
+
+            <div class="form-group">
+                <label>{{'EMAIL' | translate}}</label>
+                <input ng-model="customer.email" type="email" class="form-control"
+                       ng-required="true"/>
+            </div>
+
+        </div>
+    </div>
+</form>

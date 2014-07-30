@@ -1,0 +1,75 @@
+<!--
+	作者：xuyuanxiang@tjpower.com.cn
+	时间：2014-07-30
+	描述：登录页面
+	Controller: customer/login_controller.js
+	路由：index.html#/login
+-->
+
+<header>
+    <img src="img/logo.png" alt="ohFresh探鲜家">
+</header>
+
+<footer>
+    <a href="#/home">
+        <i class="glyphicon glyphicon-home"></i>
+        <span>{{'HOME' | translate}}</span>
+    </a>
+    <a ng-show="!customer" href="#/login" class="active">
+        <i class="glyphicon glyphicon-user"></i>
+        <span>{{'LOGIN' | translate}}</span>
+    </a>
+    <a ng-show="customer" href="#/customer">
+        <i class="glyphicon glyphicon-user"></i>
+        <span>{{'MY' | translate}}</span>
+    </a>
+    <a href="#/order/create">
+        <i class="glyphicon glyphicon-shopping-cart"></i>
+        <span class="badge" ng-show="carts.length>0">{{carts.length}}</span>
+        <span>{{'SHOPPING_CART'| translate}}</span>
+    </a>
+    <a href="tel:10086">
+        <i class="glyphicon glyphicon-phone-alt"></i>
+        <span>{{'SERVICE' | translate}}</span>
+    </a>
+</footer>
+
+<div class="container-fluid">
+    <div class="panel panel-success row">
+        <form id="loginForm" name="loginForm" role="form" class="panel-body" ng-submit="doLogin()">
+            <div class="input-group form-group">
+                <div class="input-group-addon">
+                    <i class="glyphicon glyphicon-user"></i>
+                </div>
+                <input type="text" name="account" class="form-control" tabindex="1"
+                       placeholder="{{'PLACEHOLDER_ACCOUNT' | translate}}"
+                       ng-model="account" ng-required="true">
+            </div>
+            <div class="input-group form-group">
+                <div class="input-group-addon">
+                    <i class="glyphicon glyphicon-lock"></i>
+                </div>
+                <input type="password" name="password" class="form-control" tabindex="2"
+                       placeholder="{{'PLACEHOLDER_PASSWORD' | translate}}"
+                       ng-model="password" ng-required="true">
+            </div>
+            <button ng-show="!isLoading" tabindex="3" class="btn btn-success btn-block" type="submit">
+                {{'LOGIN' | translate}}
+            </button>
+            <button disabled ng-show="isLoading" class="btn btn-success btn-block disabled" type="button">
+                {{'LOGINING' | translate}}
+            </button>
+            <div class="row">
+                <div class="pull-left">
+                    <a href="#/register" class="btn btn-link">{{'REGISTER' | translate}}</a>
+                </div>
+                <div class="pull-right">
+                    <a class="btn btn-link">{{'FORGET_PASSWORD' | translate}}</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
