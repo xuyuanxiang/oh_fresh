@@ -1,46 +1,58 @@
-(function (angular, Settings, app) {
-
-    //订单创建
-    //路径：index.html#/order/create?from=
-    app.controller('OrderCreateCtrl', ['$rootScope', '$scope', '$location',
-        '$http', '$routeParams', 'localStorageService', 'locationService',
-        //依赖注入所需服务，$开头为angular框架自带。
-        // scope存储用户视图显示的model数据
-        // 其中：$rootScope 全局唯一（即所有的controller都可访问）；
-        // $scope 当前controller域
-        function ($rootScope, $scope, $location, $http, $routeParams, localStorageService, locationService) {
-
-            $scope.products = [];
+(function (angular, app, Settings) {
+    //订单创建（支付流程）
+    app.controller('OrderCreateCtrl', ['$rootScope', '$scope', '$routeParams', '$location', '$http',
+        'addressService', 'localStorageService', 'locationService',
+        function ($rootScope, $scope, $routeParams, $location, $http, addressService, localStorageService, locationService) {
+            var products = $scope.products = angular.fromJson(localStorageService.get('products'));
+            var customer = $rootScope.customer = angular.fromJson(localStorageService.get('customer'));
             $scope.from = $routeParams.from;
+            $scope.currentAddress = angular.fromJson(localStorageService.get('address')) || null;
+            var flag = $routeParams.params;
+            $scope.payPatterns = [
+                {id: 1, name: '现金支付', icon: 'img/iconfont-pay_way.png'},
+                {id: 2, name: '支付宝', icon: 'img/iconfont-zhifubao.png'}
+            ];
+            $scope.payway = angular.fromJson(localStorageService.get('payway')) || $scope.payPatterns[0];
+            $scope.payway.selected = true;
 
-            if ($routeParams.from) {//用户点击“立即购买”跳转进入，id不为空；
-                // 立即购买的商品
-                var product = angular.fromJson(localStorageService.get('cart')) || {};
-                product.checked = true;
-                $scope.products.push(product);
-            } else {// 用户点击底部“购物车”按钮跳转进入，id为空。
-                // 购物车商品列表
-                $rootScope.carts = angular.fromJson(localStorageService.get('carts')) || [];
-                $scope.products = $rootScope.carts;
+            if (!$scope.currentAddress || !$scope.currentAddress.id) {
+                locationService().then(function (data) {
+                });
             }
-            var customer = $rootScope.customer = angular.toJson(localStorageService.get('customer'));
+
+            $scope.getAddresses = function (customerId) {
+                addressService.getByCustomer(customerId).then(
+                    function (data) {
+                        $scope.addresses = data;
+                        if ((customer && !$scope.currentAddress) || (customer && flag)) {
+                            $scope.addresses.some(function (item) {
+                                if (customer.addressId == item.id) {
+                                    $scope.currentAddress = item;
+                                    localStorageService.set('address', angular.toJson(item));
+                                    return true;
+                                }
+                            });
+                        }
+                    }
+                );
+            };
+
+            if (customer && customer.id)
+                $scope.getAddresses(customer.id);
 
             $scope.total = function () {
                 var totalPrice = 0;
                 var totalNum = 0;
-                var products = [];
                 angular.forEach($scope.products, function (product) {
                     if (product.checked) {
                         product.freight = $scope.freight ? Number($scope.freight) : 0;
                         totalPrice += Number(product.num) * Number(product.price) + Number(product.freight);
                         totalNum += 1;
-                        products.push(product);
                     }
                 });
                 return {
                     price: totalPrice + ($scope.freight ? Number($scope.freight) : 0),
-                    num: totalNum,
-                    products: products
+                    num: totalNum
                 };
             };
 
@@ -48,26 +60,90 @@
                 $location.url('/' + $scope.from.replace('.', '/'));
             };
 
-            $scope.removeFromCart = function (product) {
-                $scope.products = $scope.products.filter(function (item) {
-                    return item.id != product.id;
+            $scope.selectAddress = function (address) {
+                $scope.currentAddress = address;
+                localStorageService.set('address', angular.toJson(address));
+                $scope.showList = false;
+            };
+
+            $scope.selectPayway = function (pay) {
+                angular.forEach($scope.payPatterns, function (value) {
+                    value.selected = pay.id == value.id;
                 });
-                if (!$scope.from) {
-                    $rootScope.carts = $scope.products;
-                    localStorageService.set('carts', angular.toJson($rootScope.carts));
+                $scope.payway = pay;
+                localStorageService.set('payway', angular.toJson(pay));
+            };
+
+            $scope.redToPay = function () {
+                if (($scope.currentAddress && $scope.currentAddress.id)
+                    || ($scope.currentAddress && $scope.currentAddress.name
+                        && $scope.currentAddress.mobilephone && $scope.currentAddress.assemblename
+                        && $scope.currentAddress.country && $scope.currentAddress.province && $scope.currentAddress.city)) {
+                    if (!$scope.currentAddress.id) {
+                        var assemblename = $scope.currentAddress.country
+                            && $scope.currentAddress.country.name ?
+                            $scope.currentAddress.country.name : '';
+                        assemblename = assemblename + ($scope.currentAddress.province
+                            && $scope.currentAddress.province.name ?
+                            $scope.currentAddress.province.name : '');
+                        assemblename = assemblename + ($scope.currentAddress.city
+                            && $scope.currentAddress.city.name ?
+                            $scope.currentAddress.city.name : '');
+                        assemblename = assemblename + ($scope.currentAddress.county
+                            && $scope.currentAddress.county.name ?
+                            $scope.currentAddress.county.name : '');
+                        assemblename = assemblename + ($scope.currentAddress.assemblename ?
+                            $scope.currentAddress.assemblename.replace(assemblename, '') : '');
+                        $scope.currentAddress.assemblename = assemblename;
+                    }
+                    localStorageService.set('address', angular.toJson($scope.currentAddress));
+                    $location.url('/order/pay');
+                } else {
+                    alert('请完善配送信息');
                 }
             };
 
-            $scope.selectAll = function () {
-                var checked = $scope.products.length == $scope.total().products.length;
-                angular.forEach($scope.products, function (value) {
-                    value.checked = !checked;
-                });
-            };
-
             $scope.settlement = function () {
-                $rootScope.products = $scope.total().products;
+                var url = Settings.orderCreateUrl;
+                url += "&products=" + angular.toJson(products);
+                url += "&name=" + ($scope.currentAddress.name ? $scope.currentAddress.name : '');
+                url += "&mobilephone=" + ($scope.currentAddress.mobilephone ? $scope.currentAddress.mobilephone : '');
+                url += "&customerId=" + (customer && customer.id ? customer.id : '');
+                url += "&countryId=" + ($scope.currentAddress.country
+                    && $scope.currentAddress.country.id ? $scope.currentAddress.country.id : '');
+                url += "&provinceId=" + ($scope.currentAddress.province
+                    && $scope.currentAddress.province.id ? $scope.currentAddress.province.id : '');
+                url += "&cityId=" + ($scope.currentAddress.city
+                    && $scope.currentAddress.city.id ? $scope.currentAddress.city.id : '');
+                url += "&countyId=" + ($scope.currentAddress.county
+                    && $scope.currentAddress.county.id ? $scope.currentAddress.county.id : '');
+                url += "&memo=" + ($scope.memo ? $scope.memo : '');
+                url += "&homeaddress=" + ($scope.currentAddress.assemblename ? $scope.currentAddress.assemblename : '');
+                $http.jsonp(url).success(function (data) {
+                    if (data && data.result == 1) {
+                        alert(data.message);
+                        localStorageService.remove('payway');
+                        localStorageService.remove('address');
+                        var carts = angular.fromJson(localStorageService.get('carts'));
+                        carts = carts.filter(function (item) {
+                            var rtn = true;
+                            products.some(function (value) {
+                                if (value.id == item.id) {
+                                    rtn = false;
+                                    return true;
+                                }
+                            });
+                            return rtn;
+                        });
+                        localStorageService.remove('products');
+                        localStorageService.set('carts', angular.toJson(carts));
+                        $location.url('/cart');
+                    }
+                }).error(function () {
+                    alert('服务器连接失败！请稍后重试。。。')
+                });
             };
         }
     ]);
-})(angular, Settings, OhFresh);
+
+})(angular, OhFresh, Settings);

@@ -22,9 +22,9 @@
 
     <div class="container-fluid">
         <div class="panel panel-success row">
-            <div class="panel-title">
-                <div class="panel-heading">{{'USER_REGISTER' | translate}}</div>
-            </div>
+            <!--<div class="panel-title">-->
+            <!--<div class="panel-heading">{{'USER_REGISTER' | translate}}</div>-->
+            <!--</div>-->
 
             <div class="panel-body">
                 <div class="form-group" ng-init="nameHasInput=false"
@@ -101,11 +101,58 @@
                 </div>
                 <!-- ./password_repeat input -->
 
+
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div ng-show="countries.length>0" class="form-group">
+                            <label>{{'COUNTRY' | translate}}</label>
+                            <select name="country" tabindex="5"
+                                    class="form-control"
+                                    ng-model="country"
+                                    ng-change="countryChange(country)"
+                                    ng-options="item.name for item in countries"></select>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                        <div ng-show="provinces.length>0" class="form-group">
+                            <label>{{'PROVINCE' | translate}}</label>
+                            <select name="country" tabindex="6"
+                                    class="form-control"
+                                    ng-model="province"
+                                    ng-change="provinceChange(province)"
+                                    ng-options="item.name for item in provinces"></select>
+                        </div>
+                    </div>
+                </div>
+                <div ng-show="cities.length>0" class="form-group">
+                    <label>{{'CITY' | translate}}</label>
+                    <select name="city" tabindex="7"
+                            class="form-control"
+                            ng-model="city"
+                            ng-change="cityChange(city)"
+                            ng-options="item.name for item in cities"></select>
+                </div>
+                <div ng-show="counties.length>0" class="form-group">
+                    <label>{{'COUNTY' | translate}}</label>
+                    <select name="county" tabindex="8"
+                            class="form-control"
+                            ng-model="county"
+                            ng-change="countyChange(county)"
+                            ng-options="item.name for item in counties"></select>
+                </div>
+
+
+                <div class="form-group">
+                    <label>{{'ADDRESS'|translate}}</label>
+                    <textarea tabindex="9" name="homeaddress" ng-model="homeaddress" class="form-control"></textarea>
+                </div>
+
+
                 <div class="form-group" ng-init="emailHasInput=false"
                      ng-class="emailHasInput?(!registerForm.email.$valid?'has-feedback has-error':(email?'has-feedback has-success':'')):''">
                     <label class="text-muted">{{'EMAIL' | translate}}</label>
                     <input ng-model="email" type="email" name="email" class="form-control" ng-required="false"
-                           ng-blur="emailHasInput=true" tabindex="5"
+                           ng-blur="emailHasInput=true" tabindex="10" placeholder="方便客服与您联系"
                            ng-pattern="/^$|^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/"/>
 
                     <p ng-show="emailHasInput && !registerForm.email.$valid" class="help-block">
@@ -115,12 +162,12 @@
                           ng-class="emailHasInput?(!registerForm.email.$valid?'glyphicon glyphicon-remove':(email?'glyphicon glyphicon-ok':'')):''"></span>
                 </div>
                 <!-- ./email input -->
-
                 <div class="form-group" ng-init="wechatcodeHasInput=false"
                      ng-class="wechatcodeHasInput?(!registerForm.wechatcode.$valid?'has-feedback has-error':(wechatcode?'has-feedback has-success':'')):''">
                     <label class="text-muted">{{'WECHAT' | translate}}</label>
-                    <input ng-model="wechatcode" type="text" name="wechatcode" class="form-control" ng-required="false"
-                           ng-blur="wechatcodeHasInput=true" tabindex="6"
+                    <input ng-model="wechatcode" type="text" name="wechatcode" class="form-control"
+                           ng-required="false" placeholder="方便客服与您联系"
+                           ng-blur="wechatcodeHasInput=true" tabindex="11"
                            ng-pattern="/^$|^[a-zA-Z]{1}([a-zA-Z0-9]|[._-]){5,19}$/"/>
 
                     <p ng-show="wechatcodeHasInput && !registerForm.wechatcode.$valid" class="help-block">
@@ -131,66 +178,15 @@
                 </div>
                 <!-- ./wechatcode input -->
 
-                <div class="row">
-                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                        <div ng-show="countries.length>0" class="form-group">
-                            <label>{{'COUNTRY' | translate}}</label>
-                            <select name="country" tabindex="7"
-                                    class="form-control"
-                                    ng-model="country"
-                                    ng-change="countryChange(country)"
-                                    ng-options="item.name for item in countries"></select>
-                        </div>
-                    </div>
-                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                        <div ng-show="provinces.length>0" class="form-group">
-                            <label>{{'PROVINCE' | translate}}</label>
-                            <select name="country" tabindex="8"
-                                    class="form-control"
-                                    ng-model="province"
-                                    ng-change="provinceChange(province)"
-                                    ng-options="item.name for item in provinces"></select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                        <div ng-show="cities.length>0" class="form-group">
-                            <label>{{'CITY' | translate}}</label>
-                            <select name="city" tabindex="9"
-                                    class="form-control"
-                                    ng-model="city"
-                                    ng-change="cityChange(city)"
-                                    ng-options="item.name for item in cities"></select>
-                        </div>
-                    </div>
-                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                        <div ng-show="counties.length>0" class="form-group">
-                            <label>{{'COUNTY' | translate}}</label>
-                            <select name="county" tabindex="10"
-                                    class="form-control"
-                                    ng-model="county"
-                                    ng-change="countyChange(county)"
-                                    ng-options="item.name for item in counties"></select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>{{'ADDRESS'|translate}}</label>
-                    <textarea tabindex="11" name="homeaddress" ng-model="homeaddress" class="form-control"></textarea>
-                </div>
-
-                <button ng-show="!isLoading" tabindex="12" class="btn btn-success btn-block" type="submit">
-                    {{'DO_REGISTER' | translate}}
-                </button>
-                <button disabled ng-show="isLoading" class="btn btn-success btn-block disabled" type="button">
-                    {{'REGISTERING' | translate}}
-                </button>
-                <a href="#/login" tabindex="13" class="btn btn-danger btn-block">
-                    {{'BACK' | translate}}
-                </a>
+                <!--<button ng-show="!isLoading" tabindex="12" class="btn btn-success btn-block" type="submit">-->
+                <!--{{'DO_REGISTER' | translate}}-->
+                <!--</button>-->
+                <!--<button disabled ng-show="isLoading" class="btn btn-success btn-block disabled" type="button">-->
+                <!--{{'REGISTERING' | translate}}-->
+                <!--</button>-->
+                <!--<a href="#/login" tabindex="13" class="btn btn-danger btn-block">-->
+                <!--{{'BACK' | translate}}-->
+                <!--</a>-->
             </div>
             <!-- ./panel-body -->
         </div>

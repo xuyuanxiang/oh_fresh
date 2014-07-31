@@ -3,9 +3,10 @@
     //用户地址 新增/编辑
     //路径：index.html#/address/edit
     app.controller('AddressEditCtrl', [
-        '$rootScope', '$scope', '$location', 'addressService', 'locationService',
-        function ($rootScope, $scope, $location, addressService, locationService) {
-
+        '$rootScope', '$scope', '$location', '$routeParams', 'addressService', 'locationService',
+        function ($rootScope, $scope, $location, $routeParams, addressService, locationService) {
+            var from = $routeParams.from;
+            var params = $routeParams.params;
             var customer = $rootScope.customer = $rootScope.customer
                 || angular.fromJson(localStorageService.get('customer'));
 
@@ -71,7 +72,7 @@
             $scope.addressEditFormSubmit = function () {
                 addressService.save($scope.currentAddress, customer.id).then(function (data) {
                     alert(data.message);
-                    $location.url('/address');
+                    $location.url('/address?from=' + from + '&params=' + params);
                 });
             };
         }

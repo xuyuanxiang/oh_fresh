@@ -8,8 +8,7 @@
         '$routeParams', '$location', 'localStorageService', 'addressService',
         function ($rootScope, $scope, $routeParams, $location, localStorageService, addressService) {
 
-            var customer = $rootScope.customer = $rootScope.customer
-                || angular.fromJson(localStorageService.get('customer'));
+            var customer = $rootScope.customer = angular.fromJson(localStorageService.get('customer'));
 
             if (!customer) {
                 $location.url('/login');
@@ -28,13 +27,14 @@
                     if (customer) {
                         $scope.addresses.some(function (item) {
                             if (customer.addressId == item.id) {
-                                $rootScope.defaultAddress = item;
+                                $scope.defaultAddress = item;
                                 return true;
                             }
                         });
                     }
                 });
             };
+
             if (customer && customer.id)
                 $scope.list(customer.id);
 
@@ -46,12 +46,12 @@
 
             //设置默认地址
             $scope.defaultConfig = function (address) {
-                if (address.id != $rootScope.defaultAddress.id) {
+                if (address.id != $scope.defaultAddress.id) {
                     var promise = addressService.defaultConfig(customer.id, address.id);
                     promise.then(function (data) {
                         customer.addressId = address.id;
                         $rootScope.customer.addressId = address.id;
-                        $rootScope.defaultAddress = address;
+                        $scope.defaultAddress = address;
                         localStorageService.set('customer', angular.toJson(customer));
                     });
                 }
@@ -67,7 +67,7 @@
                 } else {
                     $rootScope.currentAddress = address;
                 }
-                $location.url('/address/edit');
+                $location.url('/address/edit?from=' + $scope.from + '&params=' + params);
             };
 
             //删除地址

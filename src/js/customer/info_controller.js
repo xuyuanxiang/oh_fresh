@@ -5,7 +5,7 @@
     app.controller('CustomerInfoCtrl', [
         '$rootScope', '$scope', 'addressService', 'localStorageService', '$location',
         function ($rootScope, $scope, addressService, localStorageService, $location) {
-            var customer = $rootScope.customer = $rootScope.customer || angular.fromJson(localStorageService.get('customer'));
+            var customer = $rootScope.customer = angular.fromJson(localStorageService.get('customer'));
 
             if (!customer) {
                 $location.url('/login');

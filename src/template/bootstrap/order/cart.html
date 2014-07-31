@@ -1,0 +1,118 @@
+<!--
+	作者：xuyuanxiang@tjpower.com.cn
+	时间：2014-07-30
+	描述：购物车
+	Controller: order/cart_controller.js
+	路由：index.html#/cart
+-->
+
+<header>
+    <a ng-show="from" role="button" ng-click="backTo()" class="btn btn-default left">
+        {{'BACK' | translate}}
+    </a>
+    <img src="img/logo.png" alt="ohFresh探鲜家">
+</header>
+
+<footer ng-show="!from">
+    <a href="#/home">
+        <i class="glyphicon glyphicon-home"></i>
+        <span>{{'HOME' | translate}}</span>
+    </a>
+    <a ng-show="!customer" href="#/login">
+        <i class="glyphicon glyphicon-user"></i>
+        <span>{{'LOGIN' | translate}}</span>
+    </a>
+    <a ng-show="customer" href="#/customer">
+        <i class="glyphicon glyphicon-user"></i>
+        <span>{{'MY' | translate}}</span>
+    </a>
+    <a href="#/cart" class="active">
+        <i class="glyphicon glyphicon-shopping-cart"></i>
+        <span class="badge" ng-show="carts.length>0">{{carts.length}}</span>
+        <span>{{'SHOPPING_CART'| translate}}</span>
+    </a>
+    <a href="tel:10086">
+        <i class="glyphicon glyphicon-phone-alt"></i>
+        <span>{{'SERVICE' | translate}}</span>
+    </a>
+</footer>
+
+<div id="orderContent" class="container-fluid">
+    我的购物车
+    <ul class="media-list list-group row">
+        <li ng-show="products.length == 0" class="list-group-item">
+            您还没有选购商品。
+        </li>
+        <li class="media list-group-item swipe"
+            ng-repeat="product in products"
+            ng-init="swipeActionClass = 'hidden visible'"
+            ng-swipe-left="swipeActionClass = 'fadeInRight'"
+            ng-swipe-right="swipeActionClass = 'fadeOutRight'">
+            <div class="swipe-content">
+                <a class="pull-left" ng-click="product.checked = !product.checked">
+                    <i class="glyphicon"
+                       ng-class="product.checked?'glyphicon-check':'glyphicon-unchecked'"></i>
+                </a>
+
+                <div class="media-body">
+                    <p class="pull-right">
+                        单价：￥{{product.price}}
+                    </p>
+                    <a ng-click="product.checked = !product.checked">
+                        <h4 class="media-heading">
+                            {{product.name}}
+                        </h4>
+                    </a>
+
+                    <div class="input-group">
+                        <div class="input-group-btn">
+                            <button ng-click="product.num = product.num>1?product.num-1:product.num"
+                                    class="btn btn-default">
+                                <i class="glyphicon glyphicon-minus"></i>
+                            </button>
+                        </div>
+                        <input type="number" class="form-control" min="1" ng-model="product.num"/>
+
+                        <div class="input-group-btn">
+                            <button ng-click="product.num=product.num+1"
+                                    class="btn btn-default">
+                                <i class="glyphicon glyphicon-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="swipe-action" ng-class="swipeActionClass">
+                <div class="swipe-action-inner animated" ng-class="swipeActionClass">
+                    <a ng-click="removeFromCart(product)">
+                        移除
+                    </a>
+                </div>
+            </div>
+        </li>
+        <li ng-show="total().num > 0" class="list-group-item text-right">
+            共 <strong>{{total().num}}</strong> 件商品，合计：<strong>￥{{total().price}}</strong>。
+        </li>
+    </ul>
+</div>
+<div ng-show="products.length>0"
+     ng-class="from?'full':''"
+     class="row control-panel panel">
+    <div class="panel-heading">
+        <h4 ng-show="products.length>1" class="panel-title">
+            <a ng-click="selectAll()">
+                <i ng-class="products.length == total().products.length?'glyphicon-check':'glyphicon-unchecked'"
+                   class="glyphicon"></i> 全选
+            </a>
+        </h4>
+
+        <p class="text-right">
+           合计（不含运费）：<strong>￥{{total().price}}</strong>
+        </p>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <button ng-click="settlement()" ng-disabled="total().num<=0" class="btn btn-success btn-block">
+            结算<span ng-show="total().num > 0">({{total().num}}件商品)</span>
+        </button>
+    </div>
+</div>

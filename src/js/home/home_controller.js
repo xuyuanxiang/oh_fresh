@@ -44,7 +44,7 @@
             //立即购买
             $scope.purchaseNow = function (productIns) {
                 localStorageService.set('cart', angular.toJson(productIns));
-                $location.url('/order/create?from=home');
+                $location.url('/cart?from=home');
             }
         }
     ]);

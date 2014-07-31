@@ -1,3 +1,11 @@
+#orderContent {
+  padding-bottom: 180px;
+}
+
+#orderContent .thumbnail img {
+  max-height: 40px;
+}
+
 .control-panel {
   position: fixed;
   z-index: 9;
@@ -10,6 +18,38 @@
 }
 
 .control-panel.full {
-  bottom: -10px;
+  bottom: -20px;
 }
 
+.thumbnail.active {
+  box-shadow: 1px 1px 4px 0px;
+}
+
+.btn-group.step {
+  height: 24px;
+}
+
+.btn-group.step .btn {
+  border-radius: 0px;
+  opacity: 0.6;
+  color: #656D78;
+  font-size: 10px;
+  background-color: #FFFFFF;
+}
+
+.step .glyphicon {
+  color: #66cc66;
+}
+
+.step .btn.passed {
+  opacity: 0.9;
+  color: #66cc66;
+}
+
+.step .btn.active {
+  opacity: 1;
+  color: #FFFFFF;
+  background-color: #009900;
+  box-shadow: 1px 1px 5px 1px #FFFFFF;
+  border: 1px solid #66cc66;
+}

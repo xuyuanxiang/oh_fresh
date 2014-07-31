@@ -27,6 +27,8 @@ header, footer {
   left: 0;
   right: 0;
   z-index: 10;
+  padding-left: -15px;
+  padding-right: -15px;
 }
 
 header {
@@ -48,17 +50,21 @@ header {
   .left {
     margin-top: 4px;
     position: absolute;
-    left: 4px;
+    left: 0;
     z-index: 11;
   }
   .right {
     margin-top: 4px;
     position: absolute;
-    right: 4px;
+    right: 0;
     z-index: 11;
   }
   .btn {
-    opacity: 0.8;
+    opacity: 0.7;
+  }
+  .btn.btn-link {
+    color: #FFFFFF;
+    text-decoration: none;
   }
 }
 
@@ -79,7 +85,7 @@ footer {
     span {
       display: block;
     }
-    .badge{
+    .badge {
       position: absolute;
       margin-left: -8px;
       margin-top: 2px;

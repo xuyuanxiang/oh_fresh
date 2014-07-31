@@ -1,0 +1,116 @@
+<!--
+	作者：xuyuanxiang@tjpower.com.cn
+	时间：2014-07-30
+	描述：订单确认（支付流程）
+	Controller: order/create_controller.js
+	路由：index.html#/order/create
+-->
+
+<header>
+    <img src="img/logo.png" alt="ohFresh探鲜家">
+</header>
+
+<div id="orderContent" class="container-fluid">
+    <div class="row">
+        <div class="btn-group btn-group-justified step">
+            <div class="btn-group">
+                <a href="#/cart" class="btn btn-default passed">
+                    购物车
+                </a>
+            </div>
+            <div class="btn-group">
+                <a href="#/order/create" class="btn btn-default passed">
+                    配送地址
+                </a>
+            </div>
+            <div class="btn-group">
+                <a href="#/order/pay" class="btn btn-default passed">支付方式</a>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-default active">订单确认</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        购买商品
+        <ul class="list-group">
+            <li class="list-group-item" ng-repeat="p in products">
+                <p class="pull-right">
+                    单价：<strong>￥{{p.price}} </strong>
+                </p>
+                <h4 class="list-group-item-heading">
+                    {{p.name}}
+                </h4>
+
+                <p class="list-group-item-text">
+                    数量：<strong>{{p.num}} </strong>
+                </p>
+            </li>
+        </ul>
+    </div>
+
+    <div class="row" ng-show="currentAddress">
+        收货地址
+        <ul class="list-group">
+            <li class="list-group-item">
+                <small class="pull-right">
+                    <i class="glyphicon glyphicon-phone"></i>
+                    {{currentAddress.mobilephone}}
+                </small>
+                <h4 class="list-group-item-heading">
+                    <i class="glyphicon glyphicon-user"></i>
+                    {{currentAddress.name}}
+                </h4>
+
+                <p class="list-group-item-text">
+                    <small>
+                        <i class="glyphicon glyphicon-map-marker"></i>
+                        {{currentAddress.assemblename}}
+                    </small>
+                </p>
+            </li>
+        </ul>
+    </div>
+
+    <div class="list-group row">
+        <div class="list-group-item from-group">
+            <label>支付方式：</label>
+
+            <p class="form-control-static">
+                {{payway.name}}
+            </p>
+        </div>
+        <div class="list-group-item form-group">
+            <label>运费：</label>
+            <select ng-model="freight" class="form-control"></select>
+        </div>
+        <div class="list-group-item form-group">
+            <label>给卖家留言：</label>
+            <textarea ng-model="memo" class="form-control"></textarea>
+        </div>
+    </div>
+</div>
+
+<div ng-show="products.length>0&&!showList"
+     class="row control-panel panel full">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            订单确认
+        </h4>
+
+        <p class="text-right">
+            共 <strong>{{total().num}}</strong> 件商品，合计（不含运费）：<strong>￥{{total().price}}</strong>
+        </p>
+    </div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        <a href="#/order/pay" class="btn btn-danger btn-block">
+            上一步
+        </a>
+    </div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        <button ng-click="settlement()" class="btn btn-success btn-block">
+            确认
+        </button>
+    </div>
+</div>

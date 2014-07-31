@@ -35,9 +35,9 @@
                     <i class="glyphicon glyphicon-user"></i>
                     {{address.name}}
                 </h4>
-                <span class="pull-right glyphicon"
-                      ng-class="defaultAddress.id == address.id?'glyphicon-check':'glyphicon-unchecked'">
-                </span>
+                <a ng-click="defaultConfig(address)" class="pull-right glyphicon"
+                   ng-class="defaultAddress.id == address.id?'glyphicon-check':'glyphicon-unchecked'">
+                </a>
 
                 <p class="list-group-item-text">
                     <small>

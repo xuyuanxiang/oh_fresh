@@ -1,30 +1,15 @@
 (function (angular, Settings, app) {
 
     //用户地址的增删改查 以及 默认地址设置，与后台进行数据交互
-    app.factory('addressService', ['$rootScope', '$http', 'localStorageService', '$q',
-        function ($rootScope, $http, localStorageService, $q) {
-
-            //从本地离线存储获取用户信息
-            $rootScope.customer = angular.fromJson(localStorageService.get('customer'));
-
-            var customer = $rootScope.customer;
-
+    app.factory('addressService', ['$rootScope', '$http', '$q',
+        function ($rootScope, $http, $q) {
 
             //通过用户ID查找地址列表
             var getByCustomer = function (customerId) {
                 var deferred = $q.defer();
                 var url = Settings.addressQuery + "&customerId=" + customerId;
                 $http.jsonp(url).success(function (data) {
-                    addresses = data;
-                    if (customer && addresses) {
-                        addresses.some(function (item) {
-                            if (item.id == customer.addressId) {
-                                $rootScope.defaultAddress = item;
-                                return true;
-                            }
-                        });
-                    }
-                    deferred.resolve(addresses);
+                    deferred.resolve(data);
                 }).error(function () {
                     alert('系统连接失败！请稍后重试。。。');
                     deferred.reject('系统连接失败！请稍后重试。。。');
