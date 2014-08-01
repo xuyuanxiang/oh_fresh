@@ -1,0 +1,30 @@
+<!--
+	作者：xuyuanxiang@tjpower.com.cn
+	时间：2014-07-30
+	描述：用户信息编辑
+	Controller: customer/edit_controller.js
+	路由：index.html#/customer/edit
+-->
+
+<header>
+    <a role="button" class="btn btn-default left"
+       ng-show="from" ng-click="backTo()">
+        {{'BACK' | translate}}
+    </a>
+    <img src="img/logo.png" alt="ohFresh探鲜家">
+</header>
+<div id="productDetailPage" class="container-fluid">
+    <div class="row">
+        <img class="img-responsive" ng-src="{{product.code}}">
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <table class="table table-striped">
+                <tr>
+                    <td>商品：</td>
+                    <td><h4>{{product.name}}</h4></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

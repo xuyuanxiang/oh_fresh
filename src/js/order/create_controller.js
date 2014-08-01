@@ -75,6 +75,7 @@
             };
 
             $scope.redToPay = function () {
+
                 if (($scope.currentAddress && $scope.currentAddress.id)
                     || ($scope.currentAddress && $scope.currentAddress.name
                         && $scope.currentAddress.mobilephone && $scope.currentAddress.assemblename

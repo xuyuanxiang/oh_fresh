@@ -5,8 +5,8 @@
     app.controller('AddressEditCtrl', [
         '$rootScope', '$scope', '$location', '$routeParams', 'addressService', 'locationService',
         function ($rootScope, $scope, $location, $routeParams, addressService, locationService) {
-            var from = $routeParams.from;
-            var params = $routeParams.params;
+            var from = $scope.from = $routeParams.from;
+            var params = $scope.params = $routeParams.params;
             var customer = $rootScope.customer = $rootScope.customer
                 || angular.fromJson(localStorageService.get('customer'));
 

@@ -38,15 +38,27 @@
 </footer>
 
 <div id="homePage" class="container-fluid">
-    <form role="form" class="input-group">
-        <input type="search" class="form-control" placeholder="{{'PLACEHOLDER_SEARCH' | translate}}">
+    <div class="row">
+        <form role="form" class="input-group">
+            <input type="search" class="form-control" placeholder="{{'PLACEHOLDER_SEARCH' | translate}}">
 
-        <div class="input-group-btn">
-            <button class="btn btn-success" type="submit">
-                <i class="fa fa-search"></i>
-            </button>
-        </div>
-    </form>
+            <div class="input-group-btn">
+                <button class="btn btn-success" type="submit">
+                    <i class="fa fa-search"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="row">
+        <ul rn-carousel>
+            <li ng-repeat="ad in advertisements"
+                rn-carousel-auto-slide="3">
+                <img class="img-responsive" ng-src="{{ad}}">
+            </li>
+        </ul>
+    </div>
+
 
     <div class="page-header" ng-repeat-start="channel in channels">
         <h4><i class="glyphicon"></i>{{channel.name}}</h4>
@@ -55,10 +67,16 @@
     <div class="row" ng-repeat-end ng-repeat="item in channel.items">
         <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3" ng-repeat="product in item.products">
             <div class="thumbnail">
-                <img ng-src="{{product.code}}">
+                <a ng-click="redToDetail(product)"><img ng-src="{{product.code}}"></a>
 
                 <div class="caption">
-                    <p><strong>{{product.name}}</strong><br/>{{product.memo?product.memo:'精选水果'}}</p>
+                    <p>
+                        <a ng-click="redToDetail(product)">
+                            <strong>{{product.name}}</strong>
+                            <br/>
+                            {{product.memo?product.memo:'精选水果'}}
+                        </a>
+                    </p>
 
                     <p class="text-right">
                         <a ng-click="showBuy=true" class="btn btn-warning" role="button">
@@ -97,7 +115,7 @@
                         <li class="list-group-item">
                             <div class="input-group">
                                 <div class="input-group-btn">
-                                    <a ng-click="currentProductIns.num = (currentProductIns.num>1?currentProductIns.num-1:currentProductIns.num)"
+                                    <a ng-disabled="!currentProductIns" ng-click="currentProductIns.num = (currentProductIns.num>1?currentProductIns.num-1:currentProductIns.num)"
                                        class="btn btn-default">
                                         <i class="glyphicon glyphicon-minus"></i>
                                     </a>
@@ -105,7 +123,7 @@
                                 <input type="number" ng-model="currentProductIns.num" min="1" class="form-control">
 
                                 <div class="input-group-btn">
-                                    <a ng-click="currentProductIns.num = currentProductIns.num+1"
+                                    <a ng-disabled="!currentProductIns" ng-click="currentProductIns.num = currentProductIns.num+1"
                                        class="btn btn-default">
                                         <i class="glyphicon glyphicon-plus"></i>
                                     </a>

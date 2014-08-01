@@ -9,6 +9,12 @@
                 controller: 'HomeCtrl'
             });
 
+            //product
+            $routeProvider.when('/product/detail', {//商品详情
+                templateUrl: 'product/detail.html',
+                controller: 'ProductDetailCtrl'
+            });
+
             //customer
             $routeProvider.when('/login', {//登录
                 templateUrl: 'customer/login.html',

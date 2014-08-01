@@ -1,7 +1,7 @@
 (function (w) {
 
     //服务端接口路径
-    var baseUrl = 'http://192.168.0.103:8080/tjpowermgm/';
+    var baseUrl = 'http://192.168.0.108:8080/tjpowermgm/';
     w.Settings = {
         loginUrl: baseUrl + 'customers?callback=JSON_CALLBACK',//登录
         registerUrl: baseUrl + 'customer/save?callback=JSON_CALLBACK',//注册

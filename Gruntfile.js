@@ -39,8 +39,7 @@ module.exports = function (grunt) {
                         'bower_components/angular-moment/angular-moment.js',
                         'bower_components/angular-translate/angular-translate.js',
                         'bower_components/angular-local-storage/angular-local-storage.js',
-                        'bower_components/angular-strap/dist/angular-strap.js',
-                        'bower_components/angular-strap/dist/angular-strap.tpl.js'
+                        'bower_components/angular-carousel/dist/angular-carousel.js'
                     ]
                 }
             },
@@ -59,6 +58,7 @@ module.exports = function (grunt) {
                         'src/js/customer/**/*.js',
                         'src/js/order/**/*.js',
                         'src/js/address/**/*.js',
+                        'src/js/product/**/*.js',
                         'src/js/routes.js'
                     ]
                 }
