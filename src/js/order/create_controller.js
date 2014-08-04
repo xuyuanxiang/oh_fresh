@@ -17,24 +17,55 @@
 
             if (!$scope.currentAddress || !$scope.currentAddress.id) {
                 locationService().then(function (data) {
+                    if ($scope.currentAddress.assemblename) {
+                        if ($scope.currentAddress.country)
+                            $scope.currentAddress.assemblename =
+                                $scope.currentAddress.assemblename.replace(
+                                    $scope.currentAddress.country.name, '');
+                        if ($scope.currentAddress.province)
+                            $scope.currentAddress.assemblename =
+                                $scope.currentAddress.assemblename.replace(
+                                    $scope.currentAddress.province.name, '');
+                        if ($scope.currentAddress.city)
+                            $scope.currentAddress.assemblename =
+                                $scope.currentAddress.assemblename.replace(
+                                    $scope.currentAddress.city.name, '');
+                        if ($scope.currentAddress.county)
+                            $scope.currentAddress.assemblename =
+                                $scope.currentAddress.assemblename.replace(
+                                    $scope.currentAddress.county.name, '');
+                    }
                 });
             }
 
             $scope.getAddresses = function (customerId) {
-                addressService.getByCustomer(customerId).then(
-                    function (data) {
-                        $scope.addresses = data;
-                        if ((customer && !$scope.currentAddress) || (customer && flag)) {
-                            $scope.addresses.some(function (item) {
-                                if (customer.addressId == item.id) {
-                                    $scope.currentAddress = item;
-                                    localStorageService.set('address', angular.toJson(item));
-                                    return true;
+                locationService().then(function (data) {
+                    addressService.getByCustomer(customerId).then(
+                        function (data) {
+                            $scope.addresses = data;
+                            if ((customer && (!$scope.currentAddress
+                                || !$scope.currentAddress.name || !$scope.currentAddress.mobilephone
+                                || !$scope.currentAddress.assemblename || !$scope.currentAddress.country
+                                || !$scope.currentAddress.province || !$scope.currentAddress.city)) || (customer && flag)) {
+                                $scope.addresses.some(function (item) {
+                                    if (customer.addressId == item.id) {
+                                        $scope.currentAddress = item;
+
+                                        localStorageService.set('address', angular.toJson(item));
+                                        return true;
+                                    }
+                                });
+                                if (customer && !$scope.currentAddress) {
+                                    $scope.currentAddress = {
+                                        name: customer.name ? customer.name : '',
+                                        mobilephone: customer.mobilephone ? customer.mobilephone : ''
+                                    }
                                 }
-                            });
+                            }
                         }
-                    }
-                );
+                    );
+                });
+
             };
 
             if (customer && customer.id)
@@ -124,7 +155,7 @@
                     if (data && data.result == 1) {
                         alert(data.message);
                         localStorageService.remove('payway');
-                        localStorageService.remove('address');
+//                        localStorageService.remove('address');
                         var carts = angular.fromJson(localStorageService.get('carts'));
                         carts = carts.filter(function (item) {
                             var rtn = true;

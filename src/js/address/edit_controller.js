@@ -3,8 +3,8 @@
     //用户地址 新增/编辑
     //路径：index.html#/address/edit
     app.controller('AddressEditCtrl', [
-        '$rootScope', '$scope', '$location', '$routeParams', 'addressService', 'locationService',
-        function ($rootScope, $scope, $location, $routeParams, addressService, locationService) {
+        '$rootScope', '$scope', '$location', '$routeParams', 'addressService', 'locationService', 'localStorageService',
+        function ($rootScope, $scope, $location, $routeParams, addressService, locationService, localStorageService) {
             var from = $scope.from = $routeParams.from;
             var params = $scope.params = $routeParams.params;
             var customer = $rootScope.customer = $rootScope.customer

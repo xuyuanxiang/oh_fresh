@@ -1,19 +1,24 @@
 (function (angular, Settings, app) {
 
     //用户地址的增删改查 以及 默认地址设置，与后台进行数据交互
-    app.factory('addressService', ['$rootScope', '$http', '$q',
-        function ($rootScope, $http, $q) {
+    app.factory('addressService', ['$rootScope', '$http', '$q', 'addressCache',
+        function ($rootScope, $http, $q, addressCache) {
 
             //通过用户ID查找地址列表
             var getByCustomer = function (customerId) {
                 var deferred = $q.defer();
-                var url = Settings.addressQuery + "&customerId=" + customerId;
-                $http.jsonp(url).success(function (data) {
-                    deferred.resolve(data);
-                }).error(function () {
-                    alert('系统连接失败！请稍后重试。。。');
-                    deferred.reject('系统连接失败！请稍后重试。。。');
-                });
+                var addresses = addressCache.get('addresses');
+                if (addresses) {
+                    deferred.resolve(addresses);
+                } else {
+                    var url = Settings.addressQuery + "&customerId=" + customerId;
+                    $http.jsonp(url).success(function (data) {
+                        addressCache.put('addresses', data);
+                        deferred.resolve(data);
+                    }).error(function () {
+                        deferred.reject('系统连接失败！请稍后重试。。。');
+                    });
+                }
                 return deferred.promise;
             };
 

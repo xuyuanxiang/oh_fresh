@@ -65,6 +65,10 @@
                 templateUrl: 'order/verify.html',
                 controller: 'OrderCreateCtrl'
             });
+            $routeProvider.when('/order/list', {// 我的订单
+                templateUrl: 'order/list.html',
+                controller: 'OrderListCtrl'
+            })
 
             $routeProvider.otherwise({
                 redirectTo: '/home'

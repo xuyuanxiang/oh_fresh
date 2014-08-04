@@ -14,7 +14,6 @@
 
             $rootScope.carts = angular.fromJson(localStorageService.get('carts')) || [];
 
-
             $scope.logout = function () {
                 if (confirm("确定要退出登录吗？")) {
                     localStorageService.remove('customer');

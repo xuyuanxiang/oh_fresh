@@ -36,7 +36,7 @@
         </div>
     </div>
 
-    <div ng-show="!currentAddress || !customer">
+    <div ng-show="!currentAddress || !customer || !customer.addressId || !currentAddress.assemblename || !currentAddress.country || !currentAddress.province || !currentAddress.city">
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 <div class="form-group">
@@ -60,8 +60,12 @@
                     <select name="country" tabindex="3"
                             class="form-control"
                             ng-model="currentAddress.country"
-                            ng-change="countryChange(currentAddress.country)"
-                            ng-options="item.name for item in countries"></select>
+                            ng-change="countryChange(currentAddress.country)">
+                        <option ng-repeat="item in countries"
+                                ng-selected="item.id == currentAddress.country.id"
+                                value="{{item.id}}">{{item.name}}
+                        </option>
+                    </select>
                 </div>
             </div>
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -70,8 +74,12 @@
                     <select name="country" tabindex="4"
                             class="form-control"
                             ng-model="currentAddress.province"
-                            ng-change="provinceChange(currentAddress.province)"
-                            ng-options="item.name for item in provinces"></select>
+                            ng-change="provinceChange(currentAddress.province)">
+                        <option ng-repeat="item in provinces"
+                                ng-selected="item.id == currentAddress.province.id"
+                                value="{{item.id}}">{{item.name}}
+                        </option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -80,8 +88,12 @@
             <select name="city" tabindex="5"
                     class="form-control"
                     ng-model="currentAddress.city"
-                    ng-change="cityChange(currentAddress.city)"
-                    ng-options="item.name for item in cities"></select>
+                    ng-change="cityChange(currentAddress.city)">
+                <option ng-repeat="item in cities"
+                        ng-selected="item.id == currentAddress.city.id"
+                        value="{{item.id}}">{{item.name}}
+                </option>
+            </select>
         </div>
         <div ng-show="counties.length>0" class="form-group">
             <label>{{'COUNTY' | translate}}</label>
@@ -101,7 +113,7 @@
     </div>
 
     <div class="animated"
-         ng-show="currentAddress&&!showList"
+         ng-show="currentAddress&&!showList&&customer&&customer.addressId"
          ng-class="showList!=undefined&&addresses.length>0?'fadeInLeft':''">
         <div class="list-group row">
             <a ng-click="showList=addresses.length>0" ng-swipe-left="showList=true" class="list-group-item active">

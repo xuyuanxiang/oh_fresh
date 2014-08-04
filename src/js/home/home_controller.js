@@ -3,8 +3,8 @@
     //主页
     //路径：index.html#/home
     app.controller('HomeCtrl', [
-        '$rootScope', '$scope', '$http', 'localStorageService', '$location', 'productCache',
-        function ($rootScope, $scope, $http, localStorageService, $location, productCache) {
+        '$rootScope', '$scope', '$location', 'channelService', 'localStorageService', 'productCache',
+        function ($rootScope, $scope, $location, channelService, localStorageService, productCache) {
 
             $rootScope.customer = angular.fromJson(localStorageService.get('customer'));
             $rootScope.carts = angular.fromJson(localStorageService.get('carts')) || [];
@@ -15,11 +15,10 @@
             ];
 
             $scope.init = function () {
-                var url = Settings.homeUrl;
-                $http.jsonp(url).success(function (data) {
+                channelService.getAll().then(function (data) {
                     $scope.channels = data;
-                }).error(function () {
-                    alert("系统连接失败！请稍后重试...");
+                }, function (reason) {
+                    alert(reason);
                 });
             };
 
