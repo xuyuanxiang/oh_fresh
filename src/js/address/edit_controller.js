@@ -16,11 +16,14 @@
             }
 
             var locationsIds = customer.locationId ? customer.locationId.split('|') : [];
-
             //查询地区列表，如果当前用户locationsIds不为空，则默认选上用户地区
             locationService().then(
                 function (data) {
                     $rootScope.currentAddress = $rootScope.currentAddress || {};
+                    if (!locationsIds || locationsIds.length == 0)
+                        locationsIds = $rootScope.currentAddress.locationfullpath ?
+                            $rootScope.currentAddress.locationfullpath.split('|') : [];
+                    alert(locationsIds);
                     if ($rootScope.countries && locationsIds.length >= 1) {
                         $rootScope.countries.some(function (item) {
                             if (item.id == locationsIds[0]) {

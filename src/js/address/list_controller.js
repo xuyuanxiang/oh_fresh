@@ -66,6 +66,7 @@
                     };
                 } else {
                     $rootScope.currentAddress = address;
+                    alert(angular.toJson(address));
                 }
                 $location.url('/address/edit?from=' + $scope.from + '&params=' + params);
             };
