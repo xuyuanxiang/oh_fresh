@@ -7,9 +7,32 @@
         function ($rootScope, $scope, $location, $routeParams, localStorageService, locationService, customerService) {
             $rootScope.isLoading = false;
 
-            if (!$rootScope.countries) {
-                locationService();
-            }
+
+            $scope.countryChange = function (country) {
+                if (country) {
+                    $scope.provinces = country.children || [];
+                    $scope.cities = $scope.provinces.length > 0 ? $scope.provinces[0].children : [];
+                    $scope.counties = $scope.cities.length > 0 ? $scope.cities[0].children : [];
+                }
+            };
+            $scope.provinceChange = function (province) {
+                if (province) {
+                    $scope.cities = province.children || [];
+                    $scope.counties = $scope.cities.length > 0 ? $scope.cities[0].children : [];
+                }
+            };
+            $scope.cityChange = function (city) {
+                if (city) {
+                    $scope.counties = city.children || [];
+                }
+            };
+
+            locationService().then(function (data) {
+                $scope.countries = data.countries;
+                $scope.provinces = data.provinces;
+                $scope.cities = data.cities;
+                $scope.counties = data.counties;
+            });
 
 
             $scope.inputUnBlurHandler = function () {
@@ -27,9 +50,9 @@
                                 if (locationId) {
                                     locationService().then(function (data) {
                                         var locationIds = locationId.split('|');
-                                        if (locationIds.length > 0 && $rootScope.countries) {
+                                        if (locationIds.length > 0 && $scope.countries) {
                                             var countryId = locationIds[0];
-                                            $rootScope.countries.some(function (value) {
+                                            $scope.countries.some(function (value) {
                                                 if (value.id == countryId) {
                                                     $scope.currentCustomer.country = value;
                                                     if ($scope.currentCustomer.homeaddress)
@@ -38,9 +61,9 @@
                                                 }
                                             });
                                         }
-                                        if (locationIds.length > 1 && $rootScope.provinces) {
+                                        if (locationIds.length > 1 && $scope.provinces) {
                                             var provinceId = locationIds[1];
-                                            $rootScope.provinces.some(function (value) {
+                                            $scope.provinces.some(function (value) {
                                                 if (value.id == provinceId) {
                                                     $scope.currentCustomer.province = value;
                                                     if ($scope.currentCustomer.homeaddress)
@@ -49,9 +72,9 @@
                                                 }
                                             });
                                         }
-                                        if (locationIds.length > 2 && $rootScope.cities) {
+                                        if (locationIds.length > 2 && $scope.cities) {
                                             var cityId = locationIds[2];
-                                            $rootScope.cities.some(function (value) {
+                                            $scope.cities.some(function (value) {
                                                 if (value.id == cityId) {
                                                     $scope.currentCustomer.city = value;
                                                     if ($scope.currentCustomer.homeaddress)
@@ -60,9 +83,9 @@
                                                 }
                                             });
                                         }
-                                        if (locationIds.length > 3 && $rootScope.counties) {
+                                        if (locationIds.length > 3 && $scope.counties) {
                                             var countyId = locationIds[3];
-                                            $rootScope.counties.some(function (value) {
+                                            $scope.counties.some(function (value) {
                                                 if (value.id == countyId) {
                                                     $scope.currentCustomer.county = value;
                                                     if ($scope.currentCustomer.homeaddress)

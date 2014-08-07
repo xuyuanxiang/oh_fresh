@@ -6,41 +6,30 @@
 </header>
 
 <div class="container-fluid">
-    <div class="panel" ng-repeat="order in orders">
+
+    <div ng-repeat="order in orders" class="list-group row">
         <small class="text-justify text-muted">订单号：{{order.id}}</small>
-        <div ng-init="showBody = false" ng-click="showBody=!showBody" ng-repeat-start="detail in order.orderDetail" class="panel-heading list-group row">
-            <a class="list-group-item" >
-                <label class="label label-danger pull-right">{{order.status==0?'进行中':'已完结'}}</label>
-                <h4 class="list-group-item-heading">
-                    {{detail.productname}}
-                </h4>
-                <span class="glyphicon glyphicon-chevron-right pull-right"></span>
+        <a class="list-group-item" ng-repeat="detail in order.orderDetail">
+            <label class="label label-danger pull-right">{{order.status==0?'进行中':'已完结'}}</label>
+            <h4 class="list-group-item-heading">
+                {{detail.productname}}
+            </h4>
+            <span class="glyphicon glyphicon-chevron-right pull-right"></span>
 
-                <p class="list-group-item-text">
-                    <small>单价：<strong>￥{{detail.productprice}}</strong>
-                        &nbsp;&nbsp;运费：<strong>{{detail.freight}}</strong>
-                        &nbsp;&nbsp;数量：<strong>{{detail.count}}</strong></small>
-                </p>
+            <p class="list-group-item-text">
+                <small>单价：<strong>￥{{detail.productprice}}</strong>
+                    &nbsp;&nbsp;运费：<strong>{{detail.freight}}</strong>
+                    &nbsp;&nbsp;数量：<strong>{{detail.count}}</strong></small>
+            </p>
 
-                <p class="pull-left">
-                    <small>合计：￥{{total(order).price}}</small>
-                </p>
+            <p class="pull-left">
+                <small>合计：￥{{total(order).price}}</small>
+            </p>
 
-                <p class="list-group-item-text text-right">
-                    <small>订购日期：{{order.createdate.time | amDateFormat:'YYYY MMMM Do dddd'}}</small>
-                </p>
-            </a>
-        </div>
-        <div ng-show="showBody" ng-repeat-end class="panel-body animated" ng-class="showBody?'fadeIn':''">
-            <div class="form-group">
-                <label>收货人：</label>
-
-                <p class="form-control-static">{{}}</p>
-            </div>
-            <small>单价：<strong>￥{{detail.productprice}}</strong>
-                &nbsp;&nbsp;运费：<strong>{{detail.freight}}</strong>
-                &nbsp;&nbsp;数量：<strong>{{detail.count}}</strong></small>
-        </div>
+            <p class="list-group-item-text text-right">
+                <small>订购日期：{{order.createdate.time | amDateFormat:'YYYY MMMM Do dddd'}}</small>
+            </p>
+        </a>
     </div>
 
 </div>

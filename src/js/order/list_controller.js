@@ -14,7 +14,6 @@
                 orderService.getByConditions({customerId: customerId, mobilephone: mobilephone}).then(
                     function (data) {
                         $scope.orders = data;
-                        console.log(data);
                     }, function (reason) {
                         alert(reason);
                     }

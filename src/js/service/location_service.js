@@ -6,43 +6,23 @@
                 var deferred = $q.defer();
                 var locations = locationCache.get('locations');
                 if (locations) {
-                    $rootScope.countries = locations;
-                    $rootScope.provinces = $rootScope.countries.length > 0 ? $rootScope.countries[0].children : [];
-                    $rootScope.cities = $rootScope.provinces.length > 0 ? $rootScope.provinces[0].children : [];
-                    $rootScope.counties = $rootScope.cities.length > 0 ? $rootScope.cities[0].children : [];
-                    $rootScope.countryChange = function (country) {
-                        $rootScope.provinces = country.children || [];
-                        $rootScope.cities = $rootScope.provinces.length > 0 ? $rootScope.provinces[0].children : [];
-                        $rootScope.counties = $rootScope.cities.length > 0 ? $rootScope.cities[0].children : [];
-                    };
-                    $rootScope.provinceChange = function (province) {
-                        $rootScope.cities = province.children || [];
-                        $rootScope.counties = $rootScope.cities.length > 0 ? $rootScope.cities[0].children : [];
-                    };
-                    $rootScope.cityChange = function (city) {
-                        $rootScope.counties = city.children || [];
-                    };
                     deferred.resolve(locations);
                 } else {
                     $http.jsonp(Settings.locationUrl).success(function (data) {
-                        $rootScope.countries = angular.fromJson(data) || [];
-                        $rootScope.provinces = $rootScope.countries.length > 0 ? $rootScope.countries[0].children : [];
-                        $rootScope.cities = $rootScope.provinces.length > 0 ? $rootScope.provinces[0].children : [];
-                        $rootScope.counties = $rootScope.cities.length > 0 ? $rootScope.cities[0].children : [];
-                        $rootScope.countryChange = function (country) {
-                            $rootScope.provinces = country.children || [];
-                            $rootScope.cities = $rootScope.provinces.length > 0 ? $rootScope.provinces[0].children : [];
-                            $rootScope.counties = $rootScope.cities.length > 0 ? $rootScope.cities[0].children : [];
+                        var countries = angular.fromJson(data) || [];
+                        var provinces = countries.length > 0 ? countries[0].children : [];
+                        var cities = provinces.length > 0 ? provinces[0].children : [];
+                        var counties = cities.length > 0 ? cities[0].children : []
+                        var rtn = {
+                            countries: countries,
+                            provinces: provinces,
+                            cities: cities,
+                            counties: counties
                         };
-                        $rootScope.provinceChange = function (province) {
-                            $rootScope.cities = province.children || [];
-                            $rootScope.counties = $rootScope.cities.length > 0 ? $rootScope.cities[0].children : [];
-                        };
-                        $rootScope.cityChange = function (city) {
-                            $rootScope.counties = city.children || [];
-                        };
-                        locationCache.put('locations', $rootScope.countries);
-                        deferred.resolve(angular.fromJson(data));
+                        locationCache.put('locations', rtn);
+                        deferred.resolve(rtn);
+                    }).error(function () {
+                        deferred.reject('系统连接失败！请稍后重试。。。');
                     });
                 }
                 return deferred.promise;

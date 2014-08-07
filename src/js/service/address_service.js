@@ -22,7 +22,7 @@
                 return deferred.promise;
             };
 
-            //设置用户默认收货地址
+            // 设置用户默认收货地址
             var defaultConfig = function (customerId, addressId) {
                 var deferred = $q.defer();
                 var url = Settings.addressDefault + "&customerId=" + customerId + "&addressId=" + addressId;

@@ -46,7 +46,7 @@
 
             //设置默认地址
             $scope.defaultConfig = function (address) {
-                if (address.id != $scope.defaultAddress.id) {
+                if (!$scope.defaultAddress || address.id != $scope.defaultAddress.id) {
                     var promise = addressService.defaultConfig(customer.id, address.id);
                     promise.then(function (data) {
                         customer.addressId = address.id;
@@ -66,7 +66,6 @@
                     };
                 } else {
                     $rootScope.currentAddress = address;
-                    alert(angular.toJson(address));
                 }
                 $location.url('/address/edit?from=' + $scope.from + '&params=' + params);
             };

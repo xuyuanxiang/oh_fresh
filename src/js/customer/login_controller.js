@@ -20,6 +20,21 @@
                 }
             }
 
+            $scope.$watch('account', function (newValue, oldValue) {
+                var mobileReg = new RegExp('^1[0-9]{10,11}$');//手机 正则表达式
+                if (mobileReg.test(newValue)) {
+                    var params = {
+                        mobilephone: newValue
+                    };
+                    customerService.getByConditions(params).then(function (data) {
+                        if (data.status == 0) {
+                            alert('账号未激活！请完善您的信息后，点击注册按钮激活账号。');
+                            $location.url('/register?mobilephone=' + data.mobilephone);
+                        }
+                    });
+                }
+            });
+
             //登录表单，提交处理函数
             $scope.doLogin = function () {
                 $rootScope.isLoading = true;//禁用登录按钮

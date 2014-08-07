@@ -7,184 +7,220 @@
 -->
 
 <header>
-    <!--<a ng-show="from" role="button" ng-click="backTo()" class="btn btn-default left">-->
-    <!--返回-->
-    <!--</a>-->
     <img src="img/logo.png" alt="ohFresh探鲜家">
 </header>
 
 <div id="orderContent" class="container-fluid">
 
-    <div class="row">
-        <div class="btn-group btn-group-justified step">
-            <div class="btn-group">
-                <a href="#/cart" class="btn btn-default passed">
-                    购物车
-                </a>
-            </div>
-            <div class="btn-group">
-                <button type="button" class="btn btn-default active">
-                    配送地址
-                </button>
-            </div>
-            <div class="btn-group">
-                <button type="button" class="btn btn-default disabled">支付方式</button>
-            </div>
-            <div class="btn-group">
-                <button type="button" class="btn btn-default disabled">订单确认</button>
-            </div>
+<div class="row">
+    <div class="btn-group btn-group-justified step">
+        <div class="btn-group">
+            <a href="#/cart" class="btn btn-default passed">
+                购物车
+            </a>
+        </div>
+        <div class="btn-group">
+            <button type="button" class="btn btn-default active">
+                配送地址
+            </button>
+        </div>
+        <div class="btn-group">
+            <button type="button" class="btn btn-default disabled">支付方式</button>
+        </div>
+        <div class="btn-group">
+            <button type="button" class="btn btn-default disabled">订单确认</button>
         </div>
     </div>
+</div>
+<div ng-show="!currentAddress || !customer || !customer.addressId">
+    <form name="orderAddressForm">
+        <div class="form-group" ng-init="mobileHasInput=false"
+             ng-class="mobileHasInput?(!orderAddressForm.mobilephone.$valid?'has-feedback has-error':'has-feedback has-success'):''">
+            <label>{{'MOBILE' | translate}}</label>
+            <label ng-show="mobileHasInput && orderAddressForm.mobilephone.$error.required"
+                   class="control-label">
+                <small>{{'REQUIRED' | translate}}</small>
+            </label>
+            <input autofocus type="tel" name="mobilephone" class="form-control" tabindex="1"
+                   ng-model="currentAddress.mobilephone"
+                   ng-required="true"
+                   ng-blur="mobileHasInput=true"
+                   ng-pattern="/^1[0-9]{10,11}$/"/>
 
-    <div ng-show="!currentAddress || !customer || !customer.addressId || !currentAddress.assemblename || !currentAddress.country || !currentAddress.province || !currentAddress.city">
-        <div class="row">
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                <div class="form-group">
-                    <label>收货人：</label>
-                    <input type="text" tabindex="1" ng-model="currentAddress.name" ng-required="true"
-                           class="form-control"/>
-                </div>
-            </div>
-            <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                <div class="form-group">
-                    <label>手机号：</label>
-                    <input type="tel" tabindex="2" ng-model="currentAddress.mobilephone" ng-required="true"
-                           class="form-control"/>
-                </div>
-            </div>
+            <p ng-show="mobileHasInput && !orderAddressForm.mobilephone.$valid"
+               class="help-block">
+                {{'MOBILE_INVALID' | translate}}
+            </p>
+                    <span class="form-control-feedback"
+                          ng-class="mobileHasInput?(!registerForm.mobilephone.$valid?'glyphicon glyphicon-remove':'glyphicon glyphicon-ok'):''"></span>
         </div>
+        <!-- ./mobile input -->
+        <div class="form-group" ng-init="nameHasInput=false"
+             ng-class="nameHasInput?(orderAddressForm.name.$valid?'has-feedback has-success':'has-feedback has-error'):''">
+            <label>{{'TRUE_NAME' | translate}}</label>
+            <label ng-show="nameHasInput && orderAddressForm.name.$error.required"
+                   class="control-label">
+                <small>{{'REQUIRED' | translate}}</small>
+            </label>
+            <input type="text" class="form-control" name="name" tabindex="2"
+                   ng-required="true" ng-blur="nameHasInput=true"
+                   ng-model="currentAddress.name"
+                   ng-pattern="/(?:[\u4E00-\u9FFF]{1,8}·\u4E00-\u9FFF]{1,8})|(?:[\u4E00-\u9FFF]{2,5})|(^[a-zA-Z]{1,30}$)/"/>
+
+            <p ng-show="nameHasInput && !orderAddressForm.name.$valid" class="help-block">
+                {{'TRUE_NAME_INVALID' | translate}}</p>
+                    <span class="form-control-feedback"
+                          ng-class="nameHasInput?(orderAddressForm.name.$valid?'glyphicon glyphicon-ok':'glyphicon glyphicon-remove'):''"></span>
+        </div>
+        <!-- ./true_name input -->
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 <div ng-show="countries.length>0" class="form-group">
                     <label>{{'COUNTRY' | translate}}</label>
-                    <select name="country" tabindex="3"
-                            class="form-control"
+                    <select name="country" tabindex="3" class="form-control"
+                            required="required" ng-required="true"
                             ng-model="currentAddress.country"
+                            ng-options="country.name for country in countries"
                             ng-change="countryChange(currentAddress.country)">
-                        <option ng-repeat="item in countries"
-                                ng-selected="item.id == currentAddress.country.id"
-                                value="{{item.id}}">{{item.name}}
-                        </option>
+                        <!--<option ng-repeat="item in countries" ng-value="item.id"-->
+                        <!--ng-selected="item.id == currentAddress.country.id">{{item.name}}-->
+                        <!--</option>-->
                     </select>
                 </div>
             </div>
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 <div ng-show="provinces.length>0" class="form-group">
                     <label>{{'PROVINCE' | translate}}</label>
-                    <select name="country" tabindex="4"
-                            class="form-control"
+                    <select name="country" tabindex="4" class="form-control"
+                            required="required" ng-required="true"
+                            ng-options="province.name for province in provinces"
                             ng-model="currentAddress.province"
                             ng-change="provinceChange(currentAddress.province)">
-                        <option ng-repeat="item in provinces"
-                                ng-selected="item.id == currentAddress.province.id"
-                                value="{{item.id}}">{{item.name}}
-                        </option>
+                        <!--<option ng-repeat="item in provinces" ng-value="item.id"-->
+                        <!--ng-selected="item.id == currentAddress.province.id">{{item.name}}-->
+                        <!--</option>-->
                     </select>
                 </div>
             </div>
         </div>
         <div ng-show="cities.length>0" class="form-group">
             <label>{{'CITY' | translate}}</label>
-            <select name="city" tabindex="5"
-                    class="form-control"
+            <select name="city" tabindex="5" class="form-control"
+                    required="required" ng-required="true"
+                    ng-options="city.name for city in cities"
                     ng-model="currentAddress.city"
                     ng-change="cityChange(currentAddress.city)">
-                <option ng-repeat="item in cities"
-                        ng-selected="item.id == currentAddress.city.id"
-                        value="{{item.id}}">{{item.name}}
-                </option>
+                <!--<option ng-repeat="item in cities" ng-value="item.id"-->
+                <!--ng-selected="item.id == currentAddress.city.id">{{item.name}}-->
+                <!--</option>-->
             </select>
         </div>
         <div ng-show="counties.length>0" class="form-group">
             <label>{{'COUNTY' | translate}}</label>
-            <select name="county" tabindex="6"
-                    class="form-control"
+            <select name="county" tabindex="6" class="form-control"
+                    required="required" ng-required="true"
+                    ng-options="county.name for county in counties"
                     ng-model="currentAddress.county"
-                    ng-change="countyChange(currentAddress.county)"
-                    ng-options="item.name for item in counties"></select>
+                    ng-change="countyChange(currentAddress.county)">
+                <!--<option ng-repeat="item in counties" ng-value="item.id"-->
+                <!--ng-selected="item.id == currentAddress.county.id">{{item.name}}-->
+                <!--</option>-->
+            </select>
         </div>
 
 
-        <div class="form-group">
+        <div class="form-group" ng-init="assemblenameHasInput=false"
+             ng-class="assemblenameHasInput?(!orderAddressForm.assemblename.$valid?'has-feedback has-error':'has-feedback has-success'):''">
+
             <label>{{'ADDRESS'|translate}}</label>
-            <textarea tabindex="7" name="assemblename" ng-model="currentAddress.assemblename"
-                      class="form-control"></textarea>
-        </div>
-    </div>
+            <label ng-show="assemblenameHasInput && orderAddressForm.assemblename.$error.required"
+                   class="control-label">
+                <small>{{'REQUIRED' | translate}}</small>
+            </label>
+            <textarea tabindex="7" name="assemblename" class="form-control"
+                      ng-model="currentAddress.assemblename" ng-blur="assemblenameHasInput=true"
+                      ng-required="true"></textarea>
+            <span class="form-control-feedback"
+                  ng-class="assemblenameHasInput?(orderAddressForm.assemblename.$valid?'glyphicon glyphicon-ok':'glyphicon glyphicon-remove'):''"></span>
 
-    <div class="animated"
-         ng-show="currentAddress&&!showList&&customer&&customer.addressId"
-         ng-class="showList!=undefined&&addresses.length>0?'fadeInLeft':''">
-        <div class="list-group row">
-            <a ng-click="showList=addresses.length>0" ng-swipe-left="showList=true" class="list-group-item active">
-                <small class="pull-right">
-                    <i class="glyphicon glyphicon-phone"></i>
-                    {{currentAddress.mobilephone}}
+
+        </div>
+    </form>
+</div>
+
+
+<div class="animated"
+     ng-show="currentAddress && customer && customer.addressId && !showList"
+     ng-class="showList!=undefined&&addresses.length>0?'fadeInLeft':''">
+    <div class="list-group row">
+        <a ng-click="showList=addresses.length>0" ng-swipe-left="showList=true" class="list-group-item active">
+            <small class="pull-right">
+                <i class="glyphicon glyphicon-phone"></i>
+                {{currentAddress.mobilephone}}
+            </small>
+            <h4 class="list-group-item-heading">
+                <i class="glyphicon glyphicon-user"></i>
+                {{currentAddress.name}}
+            </h4>
+            <i class="glyphicon glyphicon-chevron-right pull-right"></i>
+
+            <p class="list-group-item-text">
+                <small>
+                    <i class="glyphicon glyphicon-map-marker"></i>
+                    {{currentAddress.assemblename}}
                 </small>
-                <h4 class="list-group-item-heading">
-                    <i class="glyphicon glyphicon-user"></i>
-                    {{currentAddress.name}}
-                </h4>
-                <i class="glyphicon glyphicon-chevron-right pull-right"></i>
-
-                <p class="list-group-item-text">
-                    <small>
-                        <i class="glyphicon glyphicon-map-marker"></i>
-                        {{currentAddress.assemblename}}
-                    </small>
-                </p>
-            </a>
-        </div>
+            </p>
+        </a>
     </div>
-    <div class="row animated" ng-show="showList" ng-class="showList?'fadeInRight':''">
-        其他地址
-        <div class="list-group">
-            <a class="list-group-item"
-               ng-show="address.id != currentAddress.id"
-               ng-repeat="address in addresses"
-               ng-click="selectAddress(address)">
+</div>
+<div class="row animated" ng-show="showList" ng-class="showList?'fadeInRight':''">
+    <div class="list-group">
+        <a class="list-group-item"
+           ng-class="address.id == currentAddress.id?'active':''"
+           ng-repeat="address in addresses"
+           ng-click="selectAddress(address)">
                 <span class="pull-right">
                     <small>
                         <i class="glyphicon glyphicon-phone"></i>
                         {{address.mobilephone}}
                     </small>
                 </span>
-                <h4 class="list-group-item-heading">
-                    <i class="glyphicon glyphicon-user"></i>
-                    {{address.name}}
-                </h4>
+            <h4 class="list-group-item-heading">
+                <i class="glyphicon glyphicon-user"></i>
+                {{address.name}}
+            </h4>
 
-                <p class="list-group-item-text">
-                    <small>
-                        <i class="glyphicon glyphicon-map-marker"></i>
-                        {{address.assemblename}}
-                    </small>
-                </p>
-            </a>
-            <li class="list-group-item">
-                <a href="#/address?from=order.create&params=flag" class="btn btn-block btn-default">配送地址管理</a>
-            </li>
-        </div>
+            <p class="list-group-item-text">
+                <small>
+                    <i class="glyphicon glyphicon-map-marker"></i>
+                    {{address.assemblename}}
+                </small>
+            </p>
+        </a>
+        <li class="list-group-item">
+            <a href="#/address?from=order.create&params=flag" class="btn btn-block btn-default">配送地址管理</a>
+        </li>
     </div>
+</div>
 
 
-    <div class="row animated" ng-show="!showList" ng-class="showList!=undefined&&addresses.length>0?'fadeInLeft':''">
-        购买商品
-        <ul class="list-group">
-            <li class="list-group-item" ng-repeat="p in products">
-                <p class="pull-right">
-                    单价：<strong>￥{{p.price}} </strong>
-                </p>
-                <h4 class="list-group-item-heading">
-                    {{p.name}}
-                </h4>
+<div class="row animated" ng-show="!showList" ng-class="showList!=undefined&&addresses.length>0?'fadeInLeft':''">
+    购买商品
+    <ul class="list-group">
+        <li class="list-group-item" ng-repeat="p in products">
+            <p class="pull-right">
+                单价：<strong>￥{{p.price}} </strong>
+            </p>
+            <h4 class="list-group-item-heading">
+                {{p.name}}
+            </h4>
 
-                <p class="list-group-item-text">
-                    数量：<strong>{{p.num}} </strong>
-                </p>
-            </li>
-        </ul>
-    </div>
+            <p class="list-group-item-text">
+                数量：<strong>{{p.num}} </strong>
+            </p>
+        </li>
+    </ul>
+</div>
 </div>
 
 

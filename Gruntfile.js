@@ -189,7 +189,7 @@ module.exports = function (grunt) {
 
     grunt.registerTask('server', ['connect', 'open', 'watch']);
     grunt.registerTask('cleanAll', ['clean:product']);
-    grunt.registerTask('build', ['clean:less', 'less:develop', 'imagemin', 'ngtemplates', 'copy:develop']);
+    grunt.registerTask('build', ['clean:less', 'less:develop', 'imagemin', 'copy:develop', 'ngtemplates']);
     grunt.registerTask('publish', ['clean', 'less:product', 'ngtemplates', 'uglify', 'concat', 'imagemin', 'htmlmin', 'copy:product']);
     grunt.registerTask('devlop', ['clean:less', 'less:develop', 'watch']);
 }

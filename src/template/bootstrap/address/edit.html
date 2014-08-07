@@ -18,65 +18,83 @@
 
 
     <div class="container-fluid">
-        <div class="form-group">
-            <label>收货人：</label>
-            <input type="text" class="form-control" ng-required="true" ng-model="currentAddress.name"/>
+        <div class="form-group" ng-init="mobileHasInput=false"
+             ng-class="mobileHasInput?(!addressEditForm.mobilephone.$valid?'has-feedback has-error':'has-feedback has-success'):''">
+            <label>{{'MOBILE' | translate}}</label>
+            <label ng-show="mobileHasInput && addressEditForm.mobilephone.$error.required"
+                   class="control-label">
+                <small>{{'REQUIRED' | translate}}</small>
+            </label>
+            <input autofocus type="tel" name="mobilephone" class="form-control" tabindex="1"
+                   ng-model="currentAddress.mobilephone"
+                   ng-required="true"
+                   ng-blur="mobileHasInput=true"
+                   ng-pattern="/^1[0-9]{10,11}$/"/>
+
+            <p ng-show="mobileHasInput && !addressEditForm.mobilephone.$valid"
+               class="help-block">
+                {{'MOBILE_INVALID' | translate}}
+            </p>
+                    <span class="form-control-feedback"
+                          ng-class="mobileHasInput?(!addressEditForm.mobilephone.$valid?'glyphicon glyphicon-remove':'glyphicon glyphicon-ok'):''"></span>
         </div>
-        <div class="form-group">
-            <label>手机号：</label>
-            <input type="tel" class="form-control" ng-required="true" ng-model="currentAddress.mobilephone"/>
+        <!-- ./mobile input -->
+        <div class="form-group" ng-init="nameHasInput=false"
+             ng-class="nameHasInput?(addressEditForm.name.$valid?'has-feedback has-success':'has-feedback has-error'):''">
+            <label>{{'TRUE_NAME' | translate}}</label>
+            <label ng-show="nameHasInput && addressEditForm.name.$error.required"
+                   class="control-label">
+                <small>{{'REQUIRED' | translate}}</small>
+            </label>
+            <input type="text" class="form-control" name="name" tabindex="2"
+                   ng-required="true" ng-blur="nameHasInput=true"
+                   ng-model="currentAddress.name"
+                   ng-pattern="/(?:[\u4E00-\u9FFF]{1,8}·\u4E00-\u9FFF]{1,8})|(?:[\u4E00-\u9FFF]{2,5})|(^[a-zA-Z]{1,30}$)/"/>
+
+            <p ng-show="nameHasInput && !addressEditForm.name.$valid" class="help-block">
+                {{'TRUE_NAME_INVALID' | translate}}</p>
+                    <span class="form-control-feedback"
+                          ng-class="nameHasInput?(addressEditForm.name.$valid?'glyphicon glyphicon-ok':'glyphicon glyphicon-remove'):''"></span>
         </div>
+        <!-- ./true_name input -->
 
 
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 <div ng-show="countries.length>0" class="form-group">
                     <label>{{'COUNTRY' | translate}}</label>
-                    <select name="country" tabindex="1"
+                    <select name="country" tabindex="5"
                             class="form-control"
-                            ng-model="currentAddress.country"
-                            ng-change="countryChange(currentAddress.country)">
-                        <option ng-repeat="item in countries"
-                                ng-selected="item.id == currentAddress.country.id"
-                                value="{{item.id}}">{{item.name}}
-                        </option>
-                    </select>
+                            ng-model="currentCustomer.country"
+                            ng-change="countryChange(currentCustomer.country)"
+                            ng-options="item.name for item in countries"></select>
                 </div>
             </div>
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 <div ng-show="provinces.length>0" class="form-group">
                     <label>{{'PROVINCE' | translate}}</label>
-                    <select name="country" tabindex="2"
+                    <select name="country" tabindex="6"
                             class="form-control"
-                            ng-model="currentAddress.province"
-                            ng-change="provinceChange(currentAddress.province)">
-                        <option ng-repeat="item in provinces"
-                                ng-selected="item.id == currentAddress.province.id"
-                                value="{{item.id}}">{{item.name}}
-                        </option>
-                    </select>
+                            ng-model="currentCustomer.province"
+                            ng-change="provinceChange(currentCustomer.province)"
+                            ng-options="item.name for item in provinces"></select>
                 </div>
             </div>
         </div>
         <div ng-show="cities.length>0" class="form-group">
             <label>{{'CITY' | translate}}</label>
-            <select name="city" tabindex="3"
+            <select name="city" tabindex="7"
                     class="form-control"
-                    ng-required="true"
-                    ng-model="currentAddress.city"
-                    ng-change="cityChange(currentAddress.city)">
-                <option ng-repeat="item in cities"
-                        ng-selected="item.id == currentAddress.city.id"
-                        value="{{item.id}}">{{item.name}}
-                </option>
-            </select>
+                    ng-model="currentCustomer.city"
+                    ng-change="cityChange(currentCustomer.city)"
+                    ng-options="item.name for item in cities"></select>
         </div>
         <div ng-show="counties.length>0" class="form-group">
             <label>{{'COUNTY' | translate}}</label>
-            <select name="county" tabindex="4"
+            <select name="county" tabindex="8"
                     class="form-control"
-                    ng-model="currentAddress.county"
-                    ng-change="countyChange(currentAddress.county)"
+                    ng-model="currentCustomer.county"
+                    ng-change="countyChange(currentCustomer.county)"
                     ng-options="item.name for item in counties"></select>
         </div>
         <div class="form-group">
