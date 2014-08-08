@@ -70,6 +70,15 @@
                 localStorageService.set('products', angular.toJson($scope.total().products));
                 $location.url('/order/create?from=cart');
             };
+
+            $scope.removeSelected = function () {
+                if ($scope.products) {
+                    $scope.products = $rootScope.carts = $scope.products.filter(function (item) {
+                        return !item.checked;
+                    });
+                    localStorageService.set('carts', angular.toJson($scope.products));
+                }
+            };
         }
     ]);
 })(angular, Settings, OhFresh);

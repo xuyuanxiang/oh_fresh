@@ -119,9 +119,9 @@
 
             //注册表单提交
             $scope.doRegister = function () {
-                $rootScope.isLoading = true;
                 if ($scope.registerForm.$valid && !$scope.mobilephoneExist
                     && !$scope.wechatcodeExist && !$scope.emailExist) {
+                    $rootScope.isLoading = true;
                     customerService.save($scope.currentCustomer).then(
                         function (data) {
                             $rootScope.isLoading = false;

@@ -9,10 +9,11 @@
                     deferred.resolve(locations);
                 } else {
                     $http.jsonp(Settings.locationUrl).success(function (data) {
+                        console.log(data);
                         var countries = angular.fromJson(data) || [];
-                        var provinces = countries.length > 0 ? countries[0].children : [];
-                        var cities = provinces.length > 0 ? provinces[0].children : [];
-                        var counties = cities.length > 0 ? cities[0].children : []
+                        var provinces = countries && countries.length > 0 ? countries[0].children : [];
+                        var cities = provinces && provinces.length > 0 ? provinces[0].children : [];
+                        var counties = cities && cities.length > 0 ? cities[0].children : []
                         var rtn = {
                             countries: countries,
                             provinces: provinces,

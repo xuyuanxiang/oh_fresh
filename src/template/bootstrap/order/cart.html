@@ -108,12 +108,18 @@
         </h4>
 
         <p class="text-right">
-           合计（不含运费）：<strong>￥{{total().price}}</strong>
+            合计（不含运费）：<strong>￥{{total().price}}</strong>
         </p>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+        <button ng-click="removeSelected()" ng-disabled="total().num<=0" class="btn btn-danger btn-block">
+            移除<span ng-show="total().num > 0">({{total().num}}件商品)</span>
+        </button>
+    </div>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
         <button ng-click="settlement()" ng-disabled="total().num<=0" class="btn btn-success btn-block">
             结算<span ng-show="total().num > 0">({{total().num}}件商品)</span>
         </button>
     </div>
+
 </div>

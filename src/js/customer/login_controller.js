@@ -66,7 +66,7 @@
                         } else if (data && data.status == -1) {
                             alert('账号已注销！');
                         } else if (data && data.password && data.password != $scope.password) {
-                            alert('密码输入错误！' + angular.toJson(data))
+                            alert('密码输入错误！')
                         } else {
                             alert('账号不存在！');
                         }

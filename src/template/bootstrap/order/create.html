@@ -32,7 +32,7 @@
         </div>
     </div>
 </div>
-<div ng-show="!currentAddress || !customer || !customer.addressId">
+<div ng-show="!currentAddress || !customer || !customer.addressId" ng-init="showPanel=!(!currentAddress || !customer || !customer.addressId)">
     <form name="orderAddressForm">
         <div class="form-group" ng-init="mobileHasInput=false"
              ng-class="mobileHasInput?(!orderAddressForm.mobilephone.$valid?'has-feedback has-error':'has-feedback has-success'):''">
@@ -41,10 +41,10 @@
                    class="control-label">
                 <small>{{'REQUIRED' | translate}}</small>
             </label>
-            <input autofocus type="tel" name="mobilephone" class="form-control" tabindex="1"
+            <input type="tel" name="mobilephone" class="form-control" tabindex="1"
                    ng-model="currentAddress.mobilephone"
-                   ng-required="true"
-                   ng-blur="mobileHasInput=true"
+                   ng-required="true" ng-focus="showPanel=false"
+                   ng-blur="mobileHasInput=true;showPanel=true"
                    ng-pattern="/^1[0-9]{10,11}$/"/>
 
             <p ng-show="mobileHasInput && !orderAddressForm.mobilephone.$valid"
@@ -63,7 +63,8 @@
                 <small>{{'REQUIRED' | translate}}</small>
             </label>
             <input type="text" class="form-control" name="name" tabindex="2"
-                   ng-required="true" ng-blur="nameHasInput=true"
+                   ng-focus="showPanel=false"
+                   ng-required="true" ng-blur="nameHasInput=true;showPanel=true"
                    ng-model="currentAddress.name"
                    ng-pattern="/(?:[\u4E00-\u9FFF]{1,8}·\u4E00-\u9FFF]{1,8})|(?:[\u4E00-\u9FFF]{2,5})|(^[a-zA-Z]{1,30}$)/"/>
 
@@ -80,6 +81,8 @@
                     <select name="country" tabindex="3" class="form-control"
                             required="required" ng-required="true"
                             ng-model="currentAddress.country"
+                            ng-focus="showPanel=false"
+                            ng-blur="showPanel=true"
                             ng-options="country.name for country in countries"
                             ng-change="countryChange(currentAddress.country)">
                         <!--<option ng-repeat="item in countries" ng-value="item.id"-->
@@ -93,6 +96,8 @@
                     <label>{{'PROVINCE' | translate}}</label>
                     <select name="country" tabindex="4" class="form-control"
                             required="required" ng-required="true"
+                            ng-focus="showPanel=false"
+                            ng-blur="showPanel=true"
                             ng-options="province.name for province in provinces"
                             ng-model="currentAddress.province"
                             ng-change="provinceChange(currentAddress.province)">
@@ -107,6 +112,8 @@
             <label>{{'CITY' | translate}}</label>
             <select name="city" tabindex="5" class="form-control"
                     required="required" ng-required="true"
+                    ng-focus="showPanel=false"
+                    ng-blur="showPanel=true"
                     ng-options="city.name for city in cities"
                     ng-model="currentAddress.city"
                     ng-change="cityChange(currentAddress.city)">
@@ -119,6 +126,8 @@
             <label>{{'COUNTY' | translate}}</label>
             <select name="county" tabindex="6" class="form-control"
                     required="required" ng-required="true"
+                    ng-focus="showPanel=false"
+                    ng-blur="showPanel=true"
                     ng-options="county.name for county in counties"
                     ng-model="currentAddress.county"
                     ng-change="countyChange(currentAddress.county)">
@@ -137,8 +146,8 @@
                    class="control-label">
                 <small>{{'REQUIRED' | translate}}</small>
             </label>
-            <textarea tabindex="7" name="assemblename" class="form-control"
-                      ng-model="currentAddress.assemblename" ng-blur="assemblenameHasInput=true"
+            <textarea tabindex="7" name="assemblename" class="form-control" ng-focus="showPanel=false"
+                      ng-model="currentAddress.assemblename" ng-blur="assemblenameHasInput=true;showPanel=true"
                       ng-required="true"></textarea>
             <span class="form-control-feedback"
                   ng-class="assemblenameHasInput?(orderAddressForm.assemblename.$valid?'glyphicon glyphicon-ok':'glyphicon glyphicon-remove'):''"></span>
@@ -224,7 +233,7 @@
 </div>
 
 
-<div ng-show="products.length>0&&!showList"
+<div ng-show="showPanel&&products.length>0&&!showList"
      class="row control-panel panel full">
     <div class="panel-heading">
         <p class="text-right">
