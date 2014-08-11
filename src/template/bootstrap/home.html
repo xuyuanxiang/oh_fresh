@@ -31,10 +31,10 @@
         <span class="badge" ng-show="carts.length>0">{{carts.length}}</span>
         <span>{{'SHOPPING_CART'| translate}}</span>
     </a>
-    <a ng-click="backBarClickHandler">
-        <i class="glyphicon glyphicon-phone-alt"></i>
-        <span>{{'SERVICE' | translate}}</span>
-    </a>
+    <!--<a ng-click="backBarClickHandler">-->
+        <!--<i class="glyphicon glyphicon-phone-alt"></i>-->
+        <!--<span>{{'SERVICE' | translate}}</span>-->
+    <!--</a>-->
 </footer>
 
 <div id="homePage" class="container-fluid">
@@ -101,16 +101,13 @@
 
                         </li>
                         <li class="list-group-item">
-                            <a class="label label-lg"
-                               ng-repeat-start="child in product.children"
+                            <a class="btn "
+                               ng-repeat="child in product.children"
                                ng-click="selectProductIns(child)"
-                               ng-class="currentProductIns.id == child.id?'label-danger':'label-default'">
+                               ng-class="currentProductIns.id == child.id?'btn-primary':'btn-default'">
                                 <i ng-class="currentProductIns.id == child.id?'glyphicon-check':'glyphicon-unchecked'"
                                    class="glyphicon"></i> {{child.name}}
                             </a>
-                            <span ng-repeat-end>
-                                &nbsp;
-                            </span>
                         </li>
                         <li class="list-group-item">
                             <div class="input-group">
@@ -120,7 +117,7 @@
                                         <i class="glyphicon glyphicon-minus"></i>
                                     </a>
                                 </div>
-                                <input type="number" ng-model="currentProductIns.num" min="1" class="form-control">
+                                <input type="number" ng-disabled="!currentProductIns"  ng-model="currentProductIns.num" min="1" class="form-control">
 
                                 <div class="input-group-btn">
                                     <a ng-disabled="!currentProductIns" ng-click="currentProductIns.num = currentProductIns.num+1"

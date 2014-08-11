@@ -42,8 +42,9 @@
                     <span ng-show="!mobilephoneExist">{{'MOBILE_INVALID' | translate}}</span>
                     <span ng-show="mobilephoneExist">您所输入的手机号已被注册！</span>
                 </p>
-                    <span class="form-control-feedback"
-                          ng-class="mobileHasInput?(!registerForm.mobilephone.$valid||mobilephoneExist?'glyphicon glyphicon-remove':'glyphicon glyphicon-ok'):''"></span>
+                    <!--<span class="form-control-feedback"-->
+                          <!--ng-class="mobileHasInput?(!registerForm.mobilephone.$valid||mobilephoneExist?'glyphicon glyphicon-remove':'glyphicon glyphicon-ok'):''"></span>-->
+           <!---->
             </div>
             <!-- ./mobile input -->
 
@@ -62,8 +63,9 @@
 
                 <p ng-show="nameHasInput && !registerForm.name.$valid" class="help-block">
                     {{'TRUE_NAME_INVALID' | translate}}</p>
-                    <span class="form-control-feedback"
-                          ng-class="nameHasInput?(registerForm.name.$valid?'glyphicon glyphicon-ok':'glyphicon glyphicon-remove'):''"></span>
+                    <!--<span class="form-control-feedback"-->
+                          <!--ng-class="nameHasInput?(registerForm.name.$valid?'glyphicon glyphicon-ok':'glyphicon glyphicon-remove'):''"></span>-->
+           <!---->
             </div>
             <!-- ./true_name input -->
 
@@ -84,8 +86,9 @@
                 <p ng-show="passwordHasInput && !registerForm.password.$valid" class="help-block">
                     {{'PASSWORD_INVALID' | translate}}
                 </p>
-                    <span class="form-control-feedback"
-                          ng-class="passwordHasInput?(registerForm.password.$valid?'glyphicon glyphicon-ok':'glyphicon glyphicon-remove'):''"></span>
+                    <!--<span class="form-control-feedback"-->
+                          <!--ng-class="passwordHasInput?(registerForm.password.$valid?'glyphicon glyphicon-ok':'glyphicon glyphicon-remove'):''"></span>-->
+            <!---->
             </div>
             <!-- ./password input -->
 
@@ -106,8 +109,9 @@
                    class="help-block">
                     {{'PASSWORD_REPEAT_INVALID' | translate}}
                 </p>
-                    <span class="form-control-feedback"
-                          ng-class="password2HasInput?(currentCustomer.password2&&currentCustomer.password2==currentCustomer.password?'glyphicon glyphicon-ok':'glyphicon glyphicon-remove'):''"></span>
+                    <!--<span class="form-control-feedback"-->
+                          <!--ng-class="password2HasInput?(currentCustomer.password2&&currentCustomer.password2==currentCustomer.password?'glyphicon glyphicon-ok':'glyphicon glyphicon-remove'):''"></span>-->
+            <!---->
             </div>
             <!-- ./password_repeat input -->
 
@@ -177,8 +181,9 @@
                         </span>
 
                 </p>
-                    <span class="form-control-feedback"
-                          ng-class="emailHasInput?(!registerForm.email.$valid||emailExist?'glyphicon glyphicon-remove':(email?'glyphicon glyphicon-ok':'')):''"></span>
+                    <!--<span class="form-control-feedback"-->
+                          <!--ng-class="emailHasInput?(!registerForm.email.$valid||emailExist?'glyphicon glyphicon-remove':(email?'glyphicon glyphicon-ok':'')):''"></span>-->
+           <!---->
             </div>
             <!-- ./email input -->
             <div class="form-group" ng-init="wechatcodeHasInput=false"
@@ -198,8 +203,9 @@
                             您所输入的微信号已被注册！
                         </span>
                 </p>
-                    <span class="form-control-feedback"
-                          ng-class="wechatcodeHasInput?(!registerForm.wechatcode.$valid||wechatcodeExist?'glyphicon glyphicon-remove':(wechatcode?'glyphicon glyphicon-ok':'')):''"></span>
+                    <!--<span class="form-control-feedback"-->
+                          <!--ng-class="wechatcodeHasInput?(!registerForm.wechatcode.$valid||wechatcodeExist?'glyphicon glyphicon-remove':(wechatcode?'glyphicon glyphicon-ok':'')):''"></span>-->
+           <!---->
             </div>
             <!-- ./wechatcode input -->
 

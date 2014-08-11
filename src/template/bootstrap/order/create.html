@@ -41,7 +41,7 @@
                    class="control-label">
                 <small>{{'REQUIRED' | translate}}</small>
             </label>
-            <input type="tel" name="mobilephone" class="form-control" tabindex="1"
+            <input autofocus type="tel" name="mobilephone" class="form-control" tabindex="1"
                    ng-model="currentAddress.mobilephone"
                    ng-required="true" ng-focus="showPanel=false"
                    ng-blur="mobileHasInput=true;showPanel=true"
@@ -51,8 +51,9 @@
                class="help-block">
                 {{'MOBILE_INVALID' | translate}}
             </p>
-                    <span class="form-control-feedback"
-                          ng-class="mobileHasInput?(!registerForm.mobilephone.$valid?'glyphicon glyphicon-remove':'glyphicon glyphicon-ok'):''"></span>
+                    <!--<span class="form-control-feedback"-->
+                          <!--ng-class="mobileHasInput?(!registerForm.mobilephone.$valid?'glyphicon glyphicon-remove':'glyphicon glyphicon-ok'):''"></span>-->
+       <!---->
         </div>
         <!-- ./mobile input -->
         <div class="form-group" ng-init="nameHasInput=false"
@@ -70,8 +71,9 @@
 
             <p ng-show="nameHasInput && !orderAddressForm.name.$valid" class="help-block">
                 {{'TRUE_NAME_INVALID' | translate}}</p>
-                    <span class="form-control-feedback"
-                          ng-class="nameHasInput?(orderAddressForm.name.$valid?'glyphicon glyphicon-ok':'glyphicon glyphicon-remove'):''"></span>
+                    <!--<span class="form-control-feedback"-->
+                          <!--ng-class="nameHasInput?(orderAddressForm.name.$valid?'glyphicon glyphicon-ok':'glyphicon glyphicon-remove'):''"></span>-->
+        <!---->
         </div>
         <!-- ./true_name input -->
         <div class="row">
@@ -149,8 +151,8 @@
             <textarea tabindex="7" name="assemblename" class="form-control" ng-focus="showPanel=false"
                       ng-model="currentAddress.assemblename" ng-blur="assemblenameHasInput=true;showPanel=true"
                       ng-required="true"></textarea>
-            <span class="form-control-feedback"
-                  ng-class="assemblenameHasInput?(orderAddressForm.assemblename.$valid?'glyphicon glyphicon-ok':'glyphicon glyphicon-remove'):''"></span>
+            <!--<span class="form-control-feedback"-->
+                  <!--ng-class="assemblenameHasInput?(orderAddressForm.assemblename.$valid?'glyphicon glyphicon-ok':'glyphicon glyphicon-remove'):''"></span>-->
 
 
         </div>

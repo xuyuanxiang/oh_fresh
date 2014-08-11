@@ -51,7 +51,7 @@
 
             $scope.removeFromCart = function (product) {
                 $scope.products = $scope.products.filter(function (item) {
-                    return item.id != product.id;
+                    return item.id != product.id || item.num != product.num;
                 });
                 if (!$scope.from) {
                     $rootScope.carts = $scope.products;

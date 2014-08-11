@@ -26,47 +26,47 @@
                         <td class="col-xs-9">{{product.name}}</td>
                     </tr>
 
-                    <tr ng-repeat="child in product.children">
-                        <td style="vertical-align: middle" ng-show="$index==0" rowspan="{{product.children.length}}">类型：
-                        </td>
-                        <td style="vertical-align: middle">
-                            <a class="label label-lg"
-                               ng-click="selectProductIns(child)"
-                               ng-class="currentProductIns.id == child.id?'label-danger':'label-default'">
-                                <i ng-class="currentProductIns.id == child.id?'glyphicon-check':'glyphicon-unchecked'"
-                                   class="glyphicon"></i> {{child.name}}
-                            </a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>单价：</td>
-                        <td>
-                            <span ng-show="currentProductIns">￥{{currentProductIns.price}}</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="vertical-align: middle">数量：</td>
-                        <td style="vertical-align: middle">
-                            <div class="input-group">
-                                <div class="input-group-btn">
-                                    <a ng-disabled="!currentProductIns"
-                                       ng-click="currentProductIns.num = (currentProductIns.num>1?currentProductIns.num-1:currentProductIns.num)"
-                                       class="btn btn-default">
-                                        <i class="glyphicon glyphicon-minus"></i>
-                                    </a>
-                                </div>
-                                <input type="number" ng-model="currentProductIns.num" min="1" class="form-control">
+                    <!--<tr ng-repeat="child in product.children">-->
+                        <!--<td style="vertical-align: middle" ng-show="$index==0" rowspan="{{product.children.length}}">类型：-->
+                        <!--</td>-->
+                        <!--<td style="vertical-align: middle">-->
+                            <!--<a class="label label-lg"-->
+                               <!--ng-click="selectProductIns(child)"-->
+                               <!--ng-class="currentProductIns.id == child.id?'label-danger':'label-default'">-->
+                                <!--<i ng-class="currentProductIns.id == child.id?'glyphicon-check':'glyphicon-unchecked'"-->
+                                   <!--class="glyphicon"></i> {{child.name}}-->
+                            <!--</a>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td>单价：</td>-->
+                        <!--<td>-->
+                            <!--<span ng-show="currentProductIns">￥{{currentProductIns.price}}</span>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td style="vertical-align: middle">数量：</td>-->
+                        <!--<td style="vertical-align: middle">-->
+                            <!--<div class="input-group">-->
+                                <!--<div class="input-group-btn">-->
+                                    <!--<a ng-disabled="!currentProductIns"-->
+                                       <!--ng-click="currentProductIns.num = (currentProductIns.num>1?currentProductIns.num-1:currentProductIns.num)"-->
+                                       <!--class="btn btn-default">-->
+                                        <!--<i class="glyphicon glyphicon-minus"></i>-->
+                                    <!--</a>-->
+                                <!--</div>-->
+                                <!--<input type="number" ng-disabled="!currentProductIns" ng-model="currentProductIns.num" min="1" class="form-control">-->
 
-                                <div class="input-group-btn">
-                                    <a ng-disabled="!currentProductIns"
-                                       ng-click="currentProductIns.num = currentProductIns.num+1"
-                                       class="btn btn-default">
-                                        <i class="glyphicon glyphicon-plus"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
+                                <!--<div class="input-group-btn">-->
+                                    <!--<a ng-disabled="!currentProductIns"-->
+                                       <!--ng-click="currentProductIns.num = currentProductIns.num+1"-->
+                                       <!--class="btn btn-default">-->
+                                        <!--<i class="glyphicon glyphicon-plus"></i>-->
+                                    <!--</a>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</td>-->
+                    <!--</tr>-->
                     <tr>
                         <td style="vertical-align: middle">简介：</td>
                         <td style="vertical-align: middle">
@@ -75,21 +75,71 @@
                     </tr>
                 </table>
             </div>
+        </div><!-- ./panel -->
+        <div class="panel panel-warning panel-buy animated"
+             ng-class="showBuy?'fadeInUp':'hidden visible'">
+            <div class="panel-body">
+                <ul class="list-group row">
+                    <li class="list-group-item">
+                        <a ng-click="showBuy=false;" class="pull-right btn btn-link">
+                            <i class="glyphicon glyphicon-remove"></i>
+                        </a>
+                        <h4 class="list-group-item-heading">{{product.name}}</h4>
+
+                        <p ng-show="currentProductIns" class="list-group-item-text">
+                            ￥{{currentProductIns.price * currentProductIns.num}}
+                        </p>
+
+                    </li>
+                    <li class="list-group-item">
+                        <a class="btn "
+                           ng-repeat="child in product.children"
+                           ng-click="selectProductIns(child)"
+                           ng-class="currentProductIns.id == child.id?'btn-primary':'btn-default'">
+                            <i ng-class="currentProductIns.id == child.id?'glyphicon-check':'glyphicon-unchecked'"
+                               class="glyphicon"></i> {{child.name}}
+                        </a>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="input-group">
+                            <div class="input-group-btn">
+                                <a ng-disabled="!currentProductIns" ng-click="currentProductIns.num = (currentProductIns.num>1?currentProductIns.num-1:currentProductIns.num)"
+                                   class="btn btn-default">
+                                    <i class="glyphicon glyphicon-minus"></i>
+                                </a>
+                            </div>
+                            <input type="number" ng-disabled="!currentProductIns"  ng-model="currentProductIns.num" min="1" class="form-control">
+
+                            <div class="input-group-btn">
+                                <a ng-disabled="!currentProductIns" ng-click="currentProductIns.num = currentProductIns.num+1"
+                                   class="btn btn-default">
+                                    <i class="glyphicon glyphicon-plus"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <button ng-click="buySubmit(buyType,currentProductIns)" class="btn btn-success btn-block">
+                            确定
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <!-- ./panel-body -->
         </div>
-    </div>
+        <!-- ./panel -->
+    </div><!-- ./row -->
+
     <div class="buy-panel">
         <div class="btn-group btn-group-justified">
             <div class="btn-group">
-                <button ng-click="addToCart(currentProductIns)" type="button"
-                        ng-disabled="!currentProductIns" class="btn btn-warning">
-                    <i class="glyphicon glyphicon-shopping-cart"></i>
+                <button type="button" ng-click="showBuy=true;buyType=1" class="btn btn-warning">
                     {{'ADD_TO_CART' | translate}}
                 </button>
             </div>
 
             <div class="btn-group">
-                <button ng-click="purchaseNow(currentProductIns)" type="button"
-                        ng-disabled="!currentProductIns" class="btn btn-danger">
+                <button type="button" ng-click="showBuy=true;buyType=2" class="btn btn-danger">
                     {{'BUY_RIGHT_NOW' | translate}}
                 </button>
             </div>
