@@ -1,5 +1,11 @@
-(function (angular, app, Settings) {
-    app.factory('orderService', [
+;
+(function (angular, app, undefined) {
+    app.factory('orderCache', [
+        '$cacheFactory',
+        function ($cacheFactory) {
+            return $cacheFactory('orderCache');
+        }
+    ]).factory('orderService', [
         '$http', '$q', 'orderCache',
         function ($http, $q, orderCache) {
             var getByConditions = function (conditions) {
@@ -8,11 +14,15 @@
                 if (orders) {
                     deferred.resolve(orders);
                 } else {
-                    var url = Settings.orderQueryUrl;
-//                var url = Settings.orderQueryUrl + "&status=" + $scope.status;
-                    url += "&customerId=" + (conditions.customerId ? conditions.customerId : '');
-                    url += "&mobilephone=" + (conditions.mobilephone ? conditions.mobilephone : '');
-                    $http.jsonp(url).success(function (data) {
+                    var url = [
+                        app.URL.orderQueryUrl,
+                        "&customerId=",
+                        conditions.customerId ? conditions.customerId : '',
+                        "&mobilephone=",
+                        conditions.mobilephone ? conditions.mobilephone : ''
+                    ];
+                    $http.jsonp(url.join('')).success(function (data) {
+                        orderCache.put('orders', data);
                         deferred.resolve(data);
                     }).error(function () {
                         deferred.reject('系统链接失败！请稍后重试。。。');
@@ -26,4 +36,4 @@
             }
         }
     ]);
-})(angular, OhFresh, Settings);
+})(angular, OhFresh, undefined);

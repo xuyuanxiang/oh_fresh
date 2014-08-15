@@ -4,11 +4,11 @@
     //路径：index#/address?from=params=
     //from - 用户返回按钮 返回路径 为空则不显示返回按钮，形如：customer.info（即：#/customer/info）
     //params - 其他参数（预留）
-    app.controller('AddressListCtrl', ['$rootScope', '$scope',
+    app.controller('addressListController', ['$rootScope', '$scope',
         '$routeParams', '$location', 'localStorageService', 'addressService',
         function ($rootScope, $scope, $routeParams, $location, localStorageService, addressService) {
 
-            var customer = $rootScope.customer = angular.fromJson(localStorageService.get('customer'));
+            var customer = $scope.customer = angular.fromJson(localStorageService.get('customer'));
 
             if (!customer) {
                 $location.url('/login');
@@ -50,7 +50,7 @@
                     var promise = addressService.defaultConfig(customer.id, address.id);
                     promise.then(function (data) {
                         customer.addressId = address.id;
-                        $rootScope.customer.addressId = address.id;
+                        $scope.customer.addressId = address.id;
                         $scope.defaultAddress = address;
                         localStorageService.set('customer', angular.toJson(customer));
                     });

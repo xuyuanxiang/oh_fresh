@@ -26,7 +26,7 @@
                 <small>{{'REQUIRED' | translate}}</small>
             </label>
             <input autofocus type="tel" name="mobilephone" class="form-control" tabindex="1"
-                   ng-model="currentAddress.mobilephone"
+                   ng-model="address.mobilephone"
                    ng-required="true"
                    ng-blur="mobileHasInput=true"
                    ng-pattern="/^1[0-9]{10,11}$/"/>
@@ -48,7 +48,7 @@
             </label>
             <input type="text" class="form-control" name="name" tabindex="2"
                    ng-required="true" ng-blur="nameHasInput=true"
-                   ng-model="currentAddress.name"
+                   ng-model="address.name"
                    ng-pattern="/(?:[\u4E00-\u9FFF]{1,8}·\u4E00-\u9FFF]{1,8})|(?:[\u4E00-\u9FFF]{2,5})|(^[a-zA-Z]{1,30}$)/"/>
 
             <p ng-show="nameHasInput && !addressEditForm.name.$valid" class="help-block">
@@ -65,8 +65,8 @@
                     <label>{{'COUNTRY' | translate}}</label>
                     <select name="country" tabindex="5"
                             class="form-control"
-                            ng-model="currentCustomer.country"
-                            ng-change="countryChange(currentCustomer.country)"
+                            ng-model="address.country"
+                            ng-change="countryChange(address.country)"
                             ng-options="item.name for item in countries"></select>
                 </div>
             </div>
@@ -75,8 +75,8 @@
                     <label>{{'PROVINCE' | translate}}</label>
                     <select name="country" tabindex="6"
                             class="form-control"
-                            ng-model="currentCustomer.province"
-                            ng-change="provinceChange(currentCustomer.province)"
+                            ng-model="address.province"
+                            ng-change="provinceChange(address.province)"
                             ng-options="item.name for item in provinces"></select>
                 </div>
             </div>
@@ -85,23 +85,23 @@
             <label>{{'CITY' | translate}}</label>
             <select name="city" tabindex="7"
                     class="form-control"
-                    ng-model="currentCustomer.city"
-                    ng-change="cityChange(currentCustomer.city)"
+                    ng-model="address.city"
+                    ng-change="cityChange(address.city)"
                     ng-options="item.name for item in cities"></select>
         </div>
         <div ng-show="counties.length>0" class="form-group">
             <label>{{'COUNTY' | translate}}</label>
             <select name="county" tabindex="8"
                     class="form-control"
-                    ng-model="currentCustomer.county"
-                    ng-change="countyChange(currentCustomer.county)"
+                    ng-model="address.county"
+                    ng-change="countyChange(address.county)"
                     ng-options="item.name for item in counties"></select>
         </div>
         <div class="form-group">
             <label>{{'ADDRESS'|translate}}</label>
             <textarea tabindex="5"
                       ng-required="true"
-                      ng-model="currentAddress.assemblename" class="form-control"></textarea>
+                      ng-model="address.assemblename" class="form-control"></textarea>
         </div>
     </div>
 </form>

@@ -1,32 +1,31 @@
 {
-    "name": "ohfresh",
-    "version": "0.0.1",
-    "authors": [
-        "Chaos Xu (zn徐远翔) <15887805082@qq.com>"
-    ],
-    "license": "MIT",
-    "private": true,
-    "ignore": [
-        "**/.*",
-        "node_modules",
-        "bower_components",
-        "test",
-        "tests"
-    ],
-    "dependencies": {
-        "angular": "~1.2.20",
-        "angular-route": "~1.2.20",
-        "angular-touch": "~1.2.20",
-        "angular-local-storage": "~0.0.5",
-        "angular-translate": "~2.2.0",
-        "angular-moment": "~0.7.1",
-        "animate-css": "~3.2.0",
-        "jquery": "1.11.0",
-        "modernizr": "~2.8.3",
-        "respond": "~1.4.2",
-        "bootstrap": "~3.1.0",
-        "fontawesome": "~4.1.0",
-        "angular-bootstrap": "~0.11.0",
-        "angular-carousel": "~0.2.5"
-    }
+  "name": "ohfresh",
+  "version": "0.0.1",
+  "authors": [
+    "Chaos Xu (zn徐远翔) <15887805082@qq.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.2.20",
+    "angular-route": "~1.2.20",
+    "angular-touch": "~1.2.20",
+    "angular-local-storage": "~0.0.5",
+    "angular-translate": "~2.2.0",
+    "angular-moment": "~0.7.1",
+    "animate-css": "~3.2.0",
+    "jquery": "1.11.0",
+    "modernizr": "~2.8.3",
+    "respond": "~1.4.2",
+    "bootstrap": "~3.1.0",
+    "fontawesome": "~4.1.0",
+    "angular-carousel": "~0.2.5"
+  }
 }

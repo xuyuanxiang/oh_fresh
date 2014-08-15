@@ -1,24 +1,23 @@
+;
 (function (app, angular) {
 
     //注册
     //路径：index.html#/register
-    app.controller('RegisterCtrl', ['$rootScope', '$scope', '$location', '$routeParams',
+    app.controller('customerRegisterController', [
+        '$scope', '$location', '$routeParams',
         'localStorageService', 'locationService', 'customerService',
-        function ($rootScope, $scope, $location, $routeParams, localStorageService, locationService, customerService) {
-            $rootScope.isLoading = false;
+        function ($scope, $location, $routeParams, localStorageService, locationService, customerService) {
+            $scope.isLoading = false;
 
 
             $scope.countryChange = function (country) {
                 if (country) {
                     $scope.provinces = country.children || [];
-                    $scope.cities = $scope.provinces.length > 0 ? $scope.provinces[0].children : [];
-                    $scope.counties = $scope.cities.length > 0 ? $scope.cities[0].children : [];
                 }
             };
             $scope.provinceChange = function (province) {
                 if (province) {
                     $scope.cities = province.children || [];
-                    $scope.counties = $scope.cities.length > 0 ? $scope.cities[0].children : [];
                 }
             };
             $scope.cityChange = function (city) {
@@ -27,11 +26,18 @@
                 }
             };
 
+            $scope.$watch('countries', function (value) {
+                $scope.provinces = value && value[0] ? (value[0].children ? value[0].children : []) : [];
+            });
+            $scope.$watch('provinces', function (value) {
+                $scope.cities = value && value[0] ? (value[0].children ? value[0].children : []) : [];
+            });
+            $scope.$watch('cities', function (value) {
+                $scope.counties = value && value[0] ? (value[0].children ? value[0].children : []) : [];
+            });
+
             locationService().then(function (data) {
-                $scope.countries = data.countries;
-                $scope.provinces = data.provinces;
-                $scope.cities = data.cities;
-                $scope.counties = data.counties;
+                $scope.countries = data || [];
             });
 
 
@@ -49,12 +55,14 @@
                                 var locationId = data.locationId;
                                 if (locationId) {
                                     locationService().then(function (data) {
+                                        $scope.countries = data || [];
                                         var locationIds = locationId.split('|');
                                         if (locationIds.length > 0 && $scope.countries) {
                                             var countryId = locationIds[0];
                                             $scope.countries.some(function (value) {
                                                 if (value.id == countryId) {
                                                     $scope.currentCustomer.country = value;
+                                                    $scope.provinces = value ? value.children : [];
                                                     if ($scope.currentCustomer.homeaddress)
                                                         $scope.currentCustomer.homeaddress = $scope.currentCustomer.homeaddress.replace($scope.currentCustomer.country.name, '');
                                                     return true;
@@ -66,6 +74,7 @@
                                             $scope.provinces.some(function (value) {
                                                 if (value.id == provinceId) {
                                                     $scope.currentCustomer.province = value;
+                                                    $scope.cities = value ? value.children : [];
                                                     if ($scope.currentCustomer.homeaddress)
                                                         $scope.currentCustomer.homeaddress = $scope.currentCustomer.homeaddress.replace($scope.currentCustomer.province.name, '');
                                                     return true;
@@ -77,6 +86,7 @@
                                             $scope.cities.some(function (value) {
                                                 if (value.id == cityId) {
                                                     $scope.currentCustomer.city = value;
+                                                    $scope.counties = value ? value.children : []
                                                     if ($scope.currentCustomer.homeaddress)
                                                         $scope.currentCustomer.homeaddress = $scope.currentCustomer.homeaddress.replace($scope.currentCustomer.city.name, '');
                                                     return true;
@@ -121,17 +131,16 @@
             $scope.doRegister = function () {
                 if ($scope.registerForm.$valid && !$scope.mobilephoneExist
                     && !$scope.wechatcodeExist && !$scope.emailExist) {
-                    $rootScope.isLoading = true;
+                    $scope.isLoading = true;
                     customerService.save($scope.currentCustomer).then(
                         function (data) {
-                            $rootScope.isLoading = false;
+                            $scope.isLoading = false;
                             data.password = '';
                             localStorageService.set('customer', data);//将用户数据写入本地存储
-                            $rootScope.customer = data;//当前登录用户赋值，更换底部按钮“登录”为“我的”
                             $location.url('/home');
 
                         }, function (reason) {
-                            $rootScope.isLoading = false;
+                            $scope.isLoading = false;
                             alert(reason);
                         }
                     );

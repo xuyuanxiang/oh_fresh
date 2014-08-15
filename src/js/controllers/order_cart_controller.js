@@ -1,18 +1,15 @@
-(function (angular, Settings, app) {
+;
+(function (angular, app) {
 
     //订单创建
     //路径：index.html#/cart?from=
-    app.controller('CartCtrl', ['$rootScope', '$scope', '$location',
-        '$routeParams', 'localStorageService',
-        //依赖注入所需服务，$开头为angular框架自带。
-        // scope存储用户视图显示的model数据
-        // 其中：$rootScope 全局唯一（即所有的controller都可访问）；
-        // $scope 当前controller域
-        function ($rootScope, $scope, $location, $routeParams, localStorageService) {
+    app.controller('orderCartController', [
+        '$scope', '$location', '$routeParams', 'localStorageService',
+        function ($scope, $location, $routeParams, localStorageService) {
 
             $scope.products = [];
             $scope.from = $routeParams.from;
-            $rootScope.customer = angular.fromJson(localStorageService.get('customer'));
+            $scope.customer = angular.fromJson(localStorageService.get('customer'));
 
             if ($routeParams.from) {//用户点击“立即购买”跳转进入，id不为空；
                 // 立即购买的商品
@@ -21,8 +18,8 @@
                 $scope.products.push(product);
             } else {// 用户点击底部“购物车”按钮跳转进入，id为空。
                 // 购物车商品列表
-                $rootScope.carts = angular.fromJson(localStorageService.get('carts')) || [];
-                $scope.products = $rootScope.carts;
+                $scope.carts = angular.fromJson(localStorageService.get('carts')) || [];
+                $scope.products = $scope.carts;
             }
 
 
@@ -54,8 +51,8 @@
                     return item.id != product.id || item.num != product.num;
                 });
                 if (!$scope.from) {
-                    $rootScope.carts = $scope.products;
-                    localStorageService.set('carts', angular.toJson($rootScope.carts));
+                    $scope.carts = $scope.products;
+                    localStorageService.set('carts', angular.toJson($scope.carts));
                 }
             };
 
@@ -73,7 +70,7 @@
 
             $scope.removeSelected = function () {
                 if ($scope.products) {
-                    $scope.products = $rootScope.carts = $scope.products.filter(function (item) {
+                    $scope.products = $scope.carts = $scope.products.filter(function (item) {
                         return !item.checked;
                     });
                     localStorageService.set('carts', angular.toJson($scope.products));
@@ -81,4 +78,4 @@
             };
         }
     ]);
-})(angular, Settings, OhFresh);
+})(angular, OhFresh);

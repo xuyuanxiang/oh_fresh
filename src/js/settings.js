@@ -1,10 +1,10 @@
-(function (w) {
+(function (app) {
 
     //服务端接口路径
     var baseUrl = 'http://221.213.101.79:8089/tjpowermgm/';
-//    var baseUrl = 'http://192.168.0.101:8080/tjpowermgm/';
 //    var baseUrl = 'http://localhost:8080/tjpowermgm/';
-    w.Settings = {
+//    var baseUrl = 'http://192.168.0.130:8080/tjpowermgm';
+    app.URL = {
         customerQuery: baseUrl + 'customers?callback=JSON_CALLBACK',//登录
         registerUrl: baseUrl + 'customer/save?callback=JSON_CALLBACK',//注册
         homeUrl: baseUrl + 'productins/getFrontPageMessage?callback=JSON_CALLBACK',//获取首页内容
@@ -18,4 +18,4 @@
         addressDefault: baseUrl + 'customer/changeAddressId?callback=JSON_CALLBACK'//设置默认地址
     };
 
-})(window);
+})(OhFresh);

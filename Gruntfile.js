@@ -4,7 +4,7 @@ module.exports = function (grunt) {
 
         clean: {
             less: ["css/<%= pkg.name %>-<%= pkg.version %>.css"],
-            product: ["css/**/*.css", "dist/*", "js/**/*.js", "img/*", "fonts/*"]
+            product: ["css/<%= pkg.name %>-<%= pkg.version %>.min.css", "dist/*"]
         },
 
         less: {
@@ -54,11 +54,7 @@ module.exports = function (grunt) {
                         'src/js/settings.js',
                         'src/js/lang/**/*.js',
                         'src/js/service/**/*.js',
-                        'src/js/home/**/*.js',
-                        'src/js/customer/**/*.js',
-                        'src/js/order/**/*.js',
-                        'src/js/address/**/*.js',
-                        'src/js/product/**/*.js',
+                        'src/js/controllers/**/*.js',
                         'src/js/routes.js'
                     ]
                 }
@@ -190,6 +186,6 @@ module.exports = function (grunt) {
     grunt.registerTask('server', ['connect', 'open', 'watch']);
     grunt.registerTask('cleanAll', ['clean:product']);
     grunt.registerTask('build', ['clean:less', 'less:develop', 'imagemin', 'copy:develop', 'ngtemplates']);
-    grunt.registerTask('publish', ['clean', 'less:product', 'ngtemplates', 'uglify', 'concat', 'imagemin', 'htmlmin', 'copy:product']);
-    grunt.registerTask('devlop', ['clean:less', 'less:develop', 'watch']);
+    grunt.registerTask('publish', ['clean:product', 'less:product', 'ngtemplates', 'uglify', 'concat', 'imagemin', 'htmlmin', 'copy:product']);
+    grunt.registerTask('devlop', ['build', 'watch']);
 }

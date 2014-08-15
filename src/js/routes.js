@@ -6,73 +6,73 @@
             //home
             $routeProvider.when('/home', {//主页
                 templateUrl: 'home.html',
-                controller: 'HomeCtrl'
+                controller: 'homeController'
             });
 
             //product
             $routeProvider.when('/product/detail', {//商品详情
                 templateUrl: 'product/detail.html',
-                controller: 'ProductDetailCtrl'
+                controller: 'productDetailController'
             });
 
             //customer
             $routeProvider.when('/login', {//登录
                 templateUrl: 'customer/login.html',
-                controller: 'LoginCtrl'
+                controller: 'customerLoginController'
             });
             $routeProvider.when('/register', {//注册
                 templateUrl: 'customer/register.html',
-                controller: 'RegisterCtrl'
+                controller: 'customerRegisterController'
             });
             $routeProvider.when('/customer', {//用户中心
-                templateUrl: 'customer/info.html',
-                controller: 'CustomerInfoCtrl'
+                templateUrl: 'customer/home.html',
+                controller: 'customerHomeController'
             });
             $routeProvider.when('/customer/edit', {//用户信息编辑
                 templateUrl: 'customer/edit.html',
-                controller: 'CustomerEditCtrl'
+                controller: 'customerEditController'
             });
             $routeProvider.when('/customer/qrcode', {//用户二维码
                 templateUrl: 'customer/qrcode.html',
-                controller: 'CustomerEditCtrl'
+                controller: 'customerEditController'
             });
 
             //address
             $routeProvider.when('/address', { //用户配送地址管理
                 templateUrl: 'address/address.html',
-                controller: 'AddressListCtrl'
+                controller: 'addressListController'
             });
             $routeProvider.when('/address/edit', {
                 templateUrl: 'address/edit.html',
-                controller: 'AddressEditCtrl'
+                controller: 'addressEditController'
             });
 
 
             //order
             $routeProvider.when('/cart', {//购物车
                 templateUrl: 'order/cart.html',
-                controller: 'CartCtrl'
+                controller: 'orderCartController'
             });
             $routeProvider.when('/order/create', {//支付流程-配送地址选择
                 templateUrl: 'order/create.html',
-                controller: 'OrderCreateCtrl'
+                controller: 'orderCreateAddressController'
             });
             $routeProvider.when('/order/pay', {//支付流程-支付方式
                 templateUrl: 'order/pay.html',
-                controller: 'OrderCreateCtrl'
+                controller: 'orderCreatePayController'
             });
             $routeProvider.when('/order/verify', {//支付流程-支付方式
                 templateUrl: 'order/verify.html',
-                controller: 'OrderCreateCtrl'
+                controller: 'orderCreateVerifyController'
             });
             $routeProvider.when('/order/list', {// 我的订单
                 templateUrl: 'order/list.html',
-                controller: 'OrderListCtrl'
-            })
+                controller: 'orderListController'
+            });
 
             $routeProvider.otherwise({
                 redirectTo: '/home'
-            })
+            });
         }
     ]);
     angular.bootstrap(document, ['ohFresh']);

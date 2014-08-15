@@ -1,9 +1,9 @@
 (function (angular, app) {
-    app.controller('OrderListCtrl', [
-        '$rootScope', '$scope', '$routeParams', 'orderService', 'localStorageService',
-        function ($rootScope, $scope, $routeParams, orderService, localStorageService) {
+    app.controller('orderListController', [
+        '$scope', '$routeParams', '$location', 'orderService', 'localStorageService',
+        function ($scope, $routeParams, $location, orderService, localStorageService) {
 
-            var customer = $rootScope.customer = $rootScope.customer || angular.fromJson(localStorageService.get('customer'));
+            var customer = $scope.customer = angular.fromJson(localStorageService.get('customer'));
 
             if (!customer) {
                 $location.url('/login');
